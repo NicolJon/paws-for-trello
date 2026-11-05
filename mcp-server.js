@@ -1,12 +1,12 @@
 #!/usr/bin/env node
 /**
- * apex OS v2.16.10 — Standalone Stdio MCP Server
- * Permite conectar o apex OS diretamente no Antigravity IDE ou no OpenAI Codex CLI via stdio!
+ * Paws for Trello v2.16.10 — Standalone Stdio MCP Server
+ * Permite conectar o Paws for Trello diretamente no Antigravity IDE ou no OpenAI Codex CLI via stdio!
  *
  * Exemplo de uso no mcp_config.json (Antigravity) ou config.toml (Codex):
  * {
  *   "mcpServers": {
- *     "apex-os": {
+ *     "paws-for-trello": {
  *       "command": "node",
  *       "args": ["<caminho>/paws-for-trello/mcp-server.js"],
  *       "env": { "APEX_API_URL": "http://localhost:3000/api/mcp" }

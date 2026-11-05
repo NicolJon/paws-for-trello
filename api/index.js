@@ -1,9 +1,9 @@
 /**
- * apex OS v2.16.10 — Cloud & Agentic Backend Handler (Vercel Serverless + Local Node)
+ * Paws for Trello v2.16.10.0 — Cloud & Agentic Backend Handler (MSIX 45273LiamForsyth.PawsforTrello) (Vercel Serverless + Local Node)
  *
  * Releitura 1:1 da arquitetura do sistema de referência (26 módulos do processo principal,
  * 9 janelas/renderers, 58 rotas de URL, atalhos Mousetrap e 21 idiomas),
- * rebatizado como "apex OS" com:
+ * réplica 1:1 do Paws for Trello / Trello Desktop com:
  * 1. Emulação oficial da API REST (/1/members/me, /1/boards/:id/lists, POST /1/cards)
  * 2. API v1 completa para Quadros, Listas, Cartões, Checklist, Etiquetas, Anexos, Comentários e Planner
  * 3. Integração nativa Google Sheets & Google Docs (/api/v1/google/proxy)
@@ -11,7 +11,7 @@
  */
 
 const DEFAULT_WORKSPACE = {
-  appName: "apex OS",
+  appName: "Paws for Trello",
   version: "2.16.10",
   buildNumber: "1070",
   updatedAt: new Date().toISOString(),
@@ -20,7 +20,7 @@ const DEFAULT_WORKSPACE = {
     username: "joaonicolas",
     fullName: "João Nicolas",
     initials: "JN",
-    email: "joaonicolas@apexos.workspace",
+    email: "joaonicolas@trello.workspace",
     avatarColor: "#0c66e4"
   },
   members: [
@@ -35,7 +35,7 @@ const DEFAULT_WORKSPACE = {
     { id: "lbl-orange", name: "Google Docs", color: "#bd5b00" },
     { id: "lbl-red", name: "Bloqueado / Urgente", color: "#c9372c" },
     { id: "lbl-purple", name: "Antigravity & Codex", color: "#803fa5" },
-    { id: "lbl-blue", name: "Arquitetura apex OS", color: "#0c66e4" },
+    { id: "lbl-blue", name: "Arquitetura Paws for Trello", color: "#0c66e4" },
     { id: "lbl-teal", name: "Vercel & GitHub", color: "#227d9b" },
     { id: "lbl-lime", name: "Automação", color: "#5b7f24" },
     { id: "lbl-pink", name: "Design & Efeitos 1:1", color: "#ae4787" },
@@ -47,12 +47,12 @@ const DEFAULT_WORKSPACE = {
     cards: [
       {
         id: "inbox-card-1",
-        name: "Capturar ideias rápidas com Ctrl+Alt+Space (Quick Card no apex OS)",
-        desc: "Criado na Caixa de Entrada (Inbox) do apex OS v2.16.10 com suporte a arrastar e soltar para qualquer quadro ou para o Planner.",
+        name: "Capturar ideias rápidas com Ctrl+Alt+Space (Quick Card no Paws for Trello)",
+        desc: "Criado na Caixa de Entrada (Inbox) do Paws for Trello v2.16.10 com suporte a arrastar e soltar para qualquer quadro ou para o Planner.",
         createdAt: new Date().toISOString(),
         due: "2026-11-08",
         completed: false,
-        labels: [{ id: "lbl-blue", name: "Arquitetura apex OS", color: "#0c66e4" }],
+        labels: [{ id: "lbl-blue", name: "Arquitetura Paws for Trello", color: "#0c66e4" }],
         members: ["JN"],
         checklist: [
           { id: "chk-ib-1", text: "Testar atalho global Ctrl+Alt+Space", checked: true },
@@ -60,14 +60,14 @@ const DEFAULT_WORKSPACE = {
         ],
         attachments: [],
         comments: [
-          { id: "cmt-1", author: "Antigravity Agent", initials: "AG", color: "#803fa5", text: "Item pronto na Inbox do apex OS para triagem rápida.", createdAt: new Date().toISOString() }
+          { id: "cmt-1", author: "Antigravity Agent", initials: "AG", color: "#803fa5", text: "Item pronto na Inbox do Paws for Trello para triagem rápida.", createdAt: new Date().toISOString() }
         ],
         cover: "",
         sourceAgent: "system"
       },
       {
         id: "inbox-card-2",
-        name: "Sincronizar quadros do apex OS com Google Sheets e gerar especificações no Google Docs",
+        name: "Sincronizar quadros do Paws for Trello com Google Sheets e gerar especificações no Google Docs",
         desc: "Use o botão Google Workspace no topo do quadro ou em Preferências (Ctrl+,).",
         createdAt: new Date().toISOString(),
         due: "2026-11-09",
@@ -86,7 +86,7 @@ const DEFAULT_WORKSPACE = {
     {
       id: "plan-1",
       cardId: "card-101",
-      title: "Revisão 1:1 da Arquitetura apex OS",
+      title: "Revisão 1:1 da Arquitetura Paws for Trello",
       dayOffset: 0,
       startHour: 9,
       durationHours: 2,
@@ -114,12 +114,12 @@ const DEFAULT_WORKSPACE = {
   boards: [
     {
       id: "board-main-1",
-      name: "apex OS — Engenharia & Operações",
+      name: "Paws for Trello — Engenharia & Operações",
       background: "linear-gradient(135deg, #0079bf 0%, #002457 100%)",
       color: "#0079bf",
       starred: true,
       pos: 1000,
-      url: "https://apexos.workspace/b/board-main-1/apex-os-engenharia-operacoes",
+      url: "https://trello.workspace/b/board-main-1/apex-os-engenharia-operacoes",
       lists: [
         {
           id: "list-backlog",
@@ -127,10 +127,10 @@ const DEFAULT_WORKSPACE = {
           cards: [
             {
               id: "card-101",
-              name: "Cópia 1:1 Completa do Sistema de Referência no apex OS v2.16.10",
+              name: "Cópia 1:1 Completa do Sistema de Referência no Paws for Trello v2.16.10",
               desc: "Preservar 100% dos 26 módulos do processo principal, 9 janelas/renderers, 58 rotas de URL, gravador de atalhos Mousetrap, switches Atlaskit, animações CSS e 21 idiomas nativos.",
               labels: [
-                { id: "lbl-blue", name: "Arquitetura apex OS", color: "#0c66e4" },
+                { id: "lbl-blue", name: "Arquitetura Paws for Trello", color: "#0c66e4" },
                 { id: "lbl-pink", name: "Design & Efeitos 1:1", color: "#ae4787" }
               ],
               due: "2026-11-10",
@@ -147,7 +147,7 @@ const DEFAULT_WORKSPACE = {
                 { id: "att-1", name: "google-workspace-bridge.gs", url: "/google-workspace-bridge.gs", type: "code", addedAt: new Date().toISOString() }
               ],
               comments: [
-                { id: "cmt-101", author: "Antigravity Agent", initials: "AG", color: "#803fa5", text: "Todos os componentes React e folhas de estilo originais foram mapeados 1:1 para o apex OS.", createdAt: new Date().toISOString() }
+                { id: "cmt-101", author: "Antigravity Agent", initials: "AG", color: "#803fa5", text: "Todos os componentes React e folhas de estilo originais foram mapeados 1:1 para o Paws for Trello.", createdAt: new Date().toISOString() }
               ],
               googleDocUrl: "",
               agentStatus: "verified-by-antigravity"
@@ -206,7 +206,7 @@ const DEFAULT_WORKSPACE = {
             {
               id: "card-104",
               name: "Geração Nativa de Documentos no Google Docs",
-              desc: "Transformar qualquer cartão ou relatório de Sprint do apex OS em um documento estruturado no Google Docs com título, metadados, descrição, checklist e notas do agente.",
+              desc: "Transformar qualquer cartão ou relatório de Sprint do Paws for Trello em um documento estruturado no Google Docs com título, metadados, descrição, checklist e notas do agente.",
               labels: [{ id: "lbl-orange", name: "Google Docs", color: "#bd5b00" }],
               due: "2026-11-14",
               completed: false,
@@ -230,7 +230,7 @@ const DEFAULT_WORKSPACE = {
             {
               id: "card-105",
               name: "Deploy Contínuo GitHub + Vercel Serverless",
-              desc: "Aplicação apex OS pronta para execução em nuvem na Vercel e versionada no GitHub.",
+              desc: "Aplicação Paws for Trello pronta para execução em nuvem na Vercel e versionada no GitHub.",
               labels: [{ id: "lbl-teal", name: "Vercel & GitHub", color: "#227d9b" }],
               due: "2026-11-05",
               completed: true,
@@ -251,12 +251,12 @@ const DEFAULT_WORKSPACE = {
     },
     {
       id: "board-roadmap-2",
-      name: "apex OS — Roadmap IA (Antigravity + Codex)",
+      name: "Paws for Trello — Roadmap IA (Antigravity + Codex)",
       background: "linear-gradient(135deg, #673286 0%, #1c2b42 100%)",
       color: "#673286",
       starred: true,
       pos: 2000,
-      url: "https://apexos.workspace/b/board-roadmap-2/roadmap-ia-automacao",
+      url: "https://trello.workspace/b/board-roadmap-2/roadmap-ia-automacao",
       lists: [
         {
           id: "list-r1",
@@ -265,7 +265,7 @@ const DEFAULT_WORKSPACE = {
             {
               id: "card-201",
               name: "Pipeline de Triagem Automática da Inbox pelo Codex",
-              desc: "O agente lê os cartões da Inbox do apex OS e classifica automaticamente no quadro correto com etiquetas e prazos.",
+              desc: "O agente lê os cartões da Inbox do Paws for Trello e classifica automaticamente no quadro correto com etiquetas e prazos.",
               labels: [{ id: "lbl-purple", name: "Antigravity & Codex", color: "#803fa5" }],
               due: "2026-11-18",
               completed: false,
@@ -293,12 +293,12 @@ const DEFAULT_WORKSPACE = {
     },
     {
       id: "board-sheets-3",
-      name: "apex OS — Google Workspace Sync",
+      name: "Paws for Trello — Google Workspace Sync",
       background: "linear-gradient(135deg, #1f845a 0%, #0f3d2a 100%)",
       color: "#1f845a",
       starred: false,
       pos: 3000,
-      url: "https://apexos.workspace/b/board-sheets-3/operacoes-google-workspace-sync",
+      url: "https://trello.workspace/b/board-sheets-3/operacoes-google-workspace-sync",
       lists: [
         {
           id: "list-s1",
@@ -351,7 +351,7 @@ const DEFAULT_WORKSPACE = {
       timestamp: new Date().toISOString(),
       agent: "Antigravity",
       action: "system.init",
-      details: "apex OS v2.16.10 Web + MCP Bridge inicializado com fidelidade 1:1."
+      details: "Paws for Trello v2.16.10 Web + MCP Bridge inicializado com fidelidade 1:1."
     }
   ]
 };
@@ -360,8 +360,51 @@ let globalWorkspace = JSON.parse(JSON.stringify(DEFAULT_WORKSPACE));
 
 const MCP_TOOLS = [
   {
+    name: "update_card",
+    description: "Atualiza título, descrição, prazo, checklist ou status de um cartão no Paws for Trello.",
+    inputSchema: {
+      type: "object",
+      properties: {
+        cardId: { type: "string", description: "ID do cartão" },
+        title: { type: "string", description: "Novo título opcional" },
+        description: { type: "string", description: "Nova descrição em Markdown opcional" },
+        due: { type: "string", description: "Novo prazo YYYY-MM-DD opcional" },
+        completed: { type: "boolean", description: "Marcar como concluído/aberto" },
+        agentName: { type: "string", description: "Nome do agente atualizador" }
+      },
+      required: ["cardId"]
+    }
+  },
+  {
+    name: "add_comment",
+    description: "Adiciona um comentário ou registro de atividade a um cartão no Paws for Trello.",
+    inputSchema: {
+      type: "object",
+      properties: {
+        cardId: { type: "string", description: "ID do cartão" },
+        comment: { type: "string", description: "Texto do comentário ou atualização" },
+        agentName: { type: "string", description: "Nome do autor do comentário (ex: 'Antigravity' ou 'Codex')" }
+      },
+      required: ["cardId", "comment"]
+    }
+  },
+  {
+    name: "triage_inbox",
+    description: "Move um item da Caixa de Entrada (Inbox) para um quadro e lista definitivos no Paws for Trello.",
+    inputSchema: {
+      type: "object",
+      properties: {
+        cardId: { type: "string", description: "ID do cartão na Inbox" },
+        targetBoardId: { type: "string", description: "ID do quadro de destino" },
+        targetListId: { type: "string", description: "ID da lista de destino" },
+        agentName: { type: "string", description: "Nome do agente" }
+      },
+      required: ["cardId", "targetBoardId", "targetListId"]
+    }
+  },
+  {
     name: "list_boards",
-    description: "Lista todos os quadros (boards), listas e contagem de cartões do apex OS.",
+    description: "Lista todos os quadros (boards), listas e contagem de cartões do Paws for Trello.",
     inputSchema: {
       type: "object",
       properties: {}
@@ -369,7 +412,7 @@ const MCP_TOOLS = [
   },
   {
     name: "get_board",
-    description: "Retorna todas as listas e cartões detalhados de um quadro específico do apex OS pelo ID ou nome.",
+    description: "Retorna todas as listas e cartões detalhados de um quadro específico do Paws for Trello pelo ID ou nome.",
     inputSchema: {
       type: "object",
       properties: {
@@ -380,7 +423,7 @@ const MCP_TOOLS = [
   },
   {
     name: "create_card",
-    description: "Cria um novo cartão no apex OS (em uma lista específica de um quadro ou na Inbox).",
+    description: "Cria um novo cartão no Paws for Trello (em uma lista específica de um quadro ou na Inbox).",
     inputSchema: {
       type: "object",
       properties: {
@@ -411,7 +454,7 @@ const MCP_TOOLS = [
   },
   {
     name: "search_cards",
-    description: "Pesquisa cartões em todos os quadros e na Inbox do apex OS por texto, etiqueta ou status.",
+    description: "Pesquisa cartões em todos os quadros e na Inbox do Paws for Trello por texto, etiqueta ou status.",
     inputSchema: {
       type: "object",
       properties: {
@@ -422,7 +465,7 @@ const MCP_TOOLS = [
   },
   {
     name: "generate_google_doc_spec",
-    description: "Converte um cartão ou quadro do apex OS em uma especificação formatada para o Google Docs.",
+    description: "Converte um cartão ou quadro do Paws for Trello em uma especificação formatada para o Google Docs.",
     inputSchema: {
       type: "object",
       properties: {
@@ -434,7 +477,7 @@ const MCP_TOOLS = [
   },
   {
     name: "sync_google_sheets",
-    description: "Sincroniza o estado completo do apex OS com uma Planilha Google via Apps Script Web App URL ou gera payload tabular.",
+    description: "Sincroniza o estado completo do Paws for Trello com uma Planilha Google via Apps Script Web App URL ou gera payload tabular.",
     inputSchema: {
       type: "object",
       properties: {
@@ -447,9 +490,84 @@ const MCP_TOOLS = [
 function executeMcpTool(name, args = {}) {
   const agent = args.agentName || "Antigravity/Codex";
 
+  if (name === "update_card") {
+    let found = null;
+    // Check boards
+    for (const b of globalWorkspace.boards) {
+      for (const l of b.lists) {
+        const c = l.cards.find(item => item.id === args.cardId);
+        if (c) {
+          if (args.title) c.name = args.title;
+          if (args.description !== undefined) c.desc = args.description;
+          if (args.due !== undefined) c.due = args.due;
+          if (args.completed !== undefined) c.completed = Boolean(args.completed);
+          c.updatedAt = new Date().toISOString();
+          found = c;
+          break;
+        }
+      }
+      if (found) break;
+    }
+    // Check inbox
+    if (!found) {
+      const c = globalWorkspace.inbox.cards.find(item => item.id === args.cardId);
+      if (c) {
+        if (args.title) c.name = args.title;
+        if (args.description !== undefined) c.desc = args.description;
+        if (args.due !== undefined) c.due = args.due;
+        if (args.completed !== undefined) c.completed = Boolean(args.completed);
+        c.updatedAt = new Date().toISOString();
+        found = c;
+      }
+    }
+    if (!found) throw new Error(`Cartão não encontrado: ${args.cardId}`);
+    logAgentAction(agent, "update_card", found.id, found.name);
+    return { success: true, card: found };
+  }
+
+  if (name === "add_comment") {
+    let found = null;
+    for (const b of globalWorkspace.boards) {
+      for (const l of b.lists) {
+        const c = l.cards.find(item => item.id === args.cardId);
+        if (c) { found = c; break; }
+      }
+      if (found) break;
+    }
+    if (!found) {
+      found = globalWorkspace.inbox.cards.find(item => item.id === args.cardId);
+    }
+    if (!found) throw new Error(`Cartão não encontrado: ${args.cardId}`);
+    if (!found.comments) found.comments = [];
+    const commentObj = {
+      id: "comment-" + Date.now(),
+      author: agent,
+      initials: agent.slice(0, 2).toUpperCase(),
+      avatarColor: agent.toLowerCase().includes("anti") ? "#803fa5" : "#1f845a",
+      text: args.comment,
+      createdAt: new Date().toISOString()
+    };
+    found.comments.push(commentObj);
+    logAgentAction(agent, "add_comment", found.id, args.comment.slice(0, 40));
+    return { success: true, comment: commentObj, cardId: found.id };
+  }
+
+  if (name === "triage_inbox") {
+    const idx = globalWorkspace.inbox.cards.findIndex(c => c.id === args.cardId);
+    if (idx === -1) throw new Error(`Cartão não encontrado na Inbox: ${args.cardId}`);
+    const [card] = globalWorkspace.inbox.cards.splice(idx, 1);
+    const board = globalWorkspace.boards.find(b => b.id === args.targetBoardId || b.name.toLowerCase().includes(String(args.targetBoardId).toLowerCase())) || globalWorkspace.boards[0];
+    const list = board.lists.find(l => l.id === args.targetListId || l.name.toLowerCase().includes(String(args.targetListId).toLowerCase())) || board.lists[0];
+    card.boardId = board.id;
+    card.listId = list.id;
+    list.cards.push(card);
+    logAgentAction(agent, `triage_inbox (Inbox -> ${board.name} : ${list.name})`, card.id, card.name);
+    return { success: true, boardId: board.id, listId: list.id, card };
+  }
+
   if (name === "list_boards") {
     return {
-      appName: "apex OS",
+      appName: "Paws for Trello",
       inboxCount: globalWorkspace.inbox.cards.length,
       boards: globalWorkspace.boards.map(b => ({
         id: b.id,
@@ -592,15 +710,15 @@ function executeMcpTool(name, args = {}) {
     if (!targetCard) {
       targetCard = globalWorkspace.inbox.cards.find(x => x.id === args.cardId) || {
         id: args.cardId,
-        name: "Especificação Técnica — apex OS",
-        desc: "Documento gerado via Agente no apex OS."
+        name: "Especificação Técnica — Paws for Trello",
+        desc: "Documento gerado via Agente no Paws for Trello."
       };
       boardName = "Inbox";
       listName = "Caixa de Entrada";
     }
     const markdownSpec = [
       `# ${targetCard.name}`,
-      `**Sistema:** apex OS v2.16.10 | **Quadro:** ${boardName} | **Lista:** ${listName} | **ID:** \`${targetCard.id}\``,
+      `**Sistema:** Paws for Trello v2.16.10 | **Quadro:** ${boardName} | **Lista:** ${listName} | **ID:** \`${targetCard.id}\``,
       targetCard.due ? `**Prazo:** ${targetCard.due} (${targetCard.completed ? "Concluído" : "Em aberto"})` : "",
       "",
       "## Descrição e Contexto",
@@ -615,14 +733,14 @@ function executeMcpTool(name, args = {}) {
         ? ["## Comentários e Atividade", ...targetCard.comments.map(cm => `- **${cm.author}**: ${cm.text}`), ""]
         : []),
       `---`,
-      `_Gerado automaticamente por apex OS v2.16.10 (Google Docs & Antigravity/Codex Bridge) em ${new Date().toISOString()}_`
+      `_Gerado automaticamente por Paws for Trello v2.16.10 (Google Docs & Antigravity/Codex Bridge) em ${new Date().toISOString()}_`
     ].filter(Boolean).join("\n");
 
     logAgentAction(agent, "generate_google_doc_spec", targetCard.id, targetCard.name);
     return {
       success: true,
       cardId: targetCard.id,
-      title: `[apex OS Spec] ${targetCard.name}`,
+      title: `[Paws for Trello Spec] ${targetCard.name}`,
       boardName,
       listName,
       markdownSpec
@@ -647,7 +765,7 @@ function executeMcpTool(name, args = {}) {
         });
       });
     });
-    logAgentAction(agent, "sync_google_sheets", "workspace", `${rows.length} cartões preparados no apex OS`);
+    logAgentAction(agent, "sync_google_sheets", "workspace", `${rows.length} cartões preparados no Paws for Trello`);
     return {
       success: true,
       totalCards: rows.length,
@@ -758,7 +876,7 @@ module.exports = async function handler(req, res) {
       desc: result.card.desc,
       idBoard: result.boardId || globalWorkspace.inbox.id,
       idList: result.listId || globalWorkspace.inbox.listId,
-      url: `https://apexos.workspace/c/${result.card.id}`
+      url: `https://trello.workspace/c/${result.card.id}`
     });
   }
 
@@ -771,9 +889,9 @@ module.exports = async function handler(req, res) {
         protocol: "model-context-protocol",
         version: "2024-11-05",
         serverInfo: {
-          name: "apex-os-mcp",
+          name: "paws-for-trello-mcp",
           version: "2.16.10",
-          description: "MCP Bridge oficial do apex OS para Antigravity IDE e OpenAI Codex"
+          description: "MCP Bridge oficial do Paws for Trello para Antigravity IDE e OpenAI Codex"
         },
         tools: MCP_TOOLS
       });
@@ -789,7 +907,7 @@ module.exports = async function handler(req, res) {
         result: {
           protocolVersion: "2024-11-05",
           capabilities: { tools: {} },
-          serverInfo: { name: "apex-os-mcp", version: "2.16.10" }
+          serverInfo: { name: "paws-for-trello-mcp", version: "2.16.10" }
         }
       });
     }
@@ -854,12 +972,12 @@ module.exports = async function handler(req, res) {
       const body = await parseBody(req);
       const newBoard = {
         id: "board-" + Date.now(),
-        name: body.name || "Novo Quadro — apex OS",
+        name: body.name || "Novo Quadro — Paws for Trello",
         background: body.background || "linear-gradient(135deg, #0079bf 0%, #002457 100%)",
         color: body.color || "#0079bf",
         starred: Boolean(body.starred),
         pos: (globalWorkspace.boards.length + 1) * 1000,
-        url: `https://apexos.workspace/b/board-${Date.now()}`,
+        url: `https://trello.workspace/b/board-${Date.now()}`,
         lists: body.lists || [
           { id: "list-todo-" + Date.now(), name: "A Fazer", cards: [] },
           { id: "list-doing-" + Date.now(), name: "Em Andamento", cards: [] },
@@ -892,7 +1010,7 @@ module.exports = async function handler(req, res) {
     }
     const created = executeMcpTool("create_card", {
       title: prompt.slice(0, 100),
-      description: `Tarefa enviada via comando de agente (${agent}) no apex OS:\n\n${prompt}`,
+      description: `Tarefa enviada via comando de agente (${agent}) no Paws for Trello:\n\n${prompt}`,
       destination: body.destination || "board",
       boardId: body.boardId || "board-main-1",
       listId: body.listId || "list-agent-queue",
@@ -932,7 +1050,7 @@ module.exports = async function handler(req, res) {
   }
 
   return sendJson(res, 200, {
-    app: "apex OS v2.16.10",
+    app: "Paws for Trello v2.16.10",
     version: "2.16.10",
     status: "online",
     endpoints: {

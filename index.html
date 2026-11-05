@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
-  <title>apex OS — v2.16.10 (1:1 Reference Edition + Google Workspace + Antigravity &amp; Codex)</title>
+  <title>Paws for Trello — v2.16.10 (1:1 Reference Edition + Google Workspace + Antigravity &amp; Codex)</title>
   <link rel="icon" type="image/png" href="/assets/StoreLogo.png" />
   <link rel="stylesheet" href="/styles.css" />
   <!-- JSZip para Export Logs (.zip) idêntico ao módulo `dialogs` (Tc) original -->
@@ -17,11 +17,11 @@
   <div id="global-loading-spinner" class="loading" aria-hidden="true"></div>
   <div id="global-offline-overlay" class="offline-message">
     <div class="offline-issue">
-      <h5>Você está no modo Offline do apex OS</h5>
+      <h5>Você está no modo Offline do Paws for Trello</h5>
       <p>As alterações continuarão sendo salvas localmente e serão sincronizadas assim que a conexão voltar.</p>
     </div>
   </div>
-  <div id="global-notice-pill" class="notice">Alterações salvas no apex OS</div>
+  <div id="global-notice-pill" class="notice">Alterações salvas no Paws for Trello</div>
 
   <!-- ========================================================================
        1. @atlassian/electron-frame — CUSTOM TITLEBAR + 8 APPLICATION MENUS
@@ -32,8 +32,8 @@
         <img src="/assets/c91ccae2ac3e68632c5b.svg" alt="Menu" width="16" height="9" />
       </window-menu>
       <window-title id="window-title">
-        <img src="/assets/Square44x44Logo.targetsize-24_altform-unplated.png" width="16" height="16" alt="apex OS" />
-        <span id="window-title-text">apex OS</span>
+        <img src="/assets/Square44x44Logo.targetsize-24_altform-unplated.png" width="16" height="16" alt="Paws for Trello" />
+        <span id="window-title-text">Paws for Trello</span>
       </window-title>
 
       <!-- Barra de Menus Nativa (File, Edit, View, History, Boards, Window, Developer, Help) -->
@@ -70,7 +70,7 @@
             <rect x="6" y="6" width="5" height="11" rx="1.2" fill="#fff"/>
             <rect x="13" y="6" width="5" height="7" rx="1.2" fill="#fff"/>
           </svg>
-          <span class="brand-name-text">apex OS</span>
+          <span class="brand-name-text">Paws for Trello</span>
           <span class="brand-version-pill">v2.16.10</span>
         </button>
 
@@ -138,7 +138,7 @@
       <aside class="workspace-sidebar" id="workspace-sidebar">
         <div class="sidebar-section">
           <div class="sidebar-section-title">
-            <span>Navegação apex OS</span>
+            <span>Navegação Paws for Trello</span>
             <button class="sidebar-collapse-btn" id="btn-collapse-sidebar" title="Recolher Barra Lateral">[«]</button>
           </div>
           <div class="sidebar-nav-item active" data-view="board" id="nav-view-board">
@@ -227,7 +227,7 @@
       <main class="board-canvas-wrapper" id="board-canvas-wrapper">
         <div class="board-header-bar">
           <div class="board-header-left">
-            <h2 class="board-title-heading" id="active-board-title" title="Clique para renomear o quadro">apex OS</h2>
+            <h2 class="board-title-heading" id="active-board-title" title="Clique para renomear o quadro">Paws for Trello</h2>
             <button class="board-pill-btn" id="btn-star-current-board" title="Marcar/Desmarcar com Estrela">⭐</button>
             <button class="board-pill-btn" id="btn-set-default-board" title="Definir como Quadro Padrão (Ctrl+Shift+D)">📌 Padrão</button>
             <div class="board-view-switcher">
@@ -306,7 +306,7 @@
       <!-- ====================================================================
            BOTTOM FLOATING DOCK BAR (Split-Screen Switcher: Inbox | Planner | Board | Switcher)
            ==================================================================== -->
-      <nav class="apex-bottom-dock" id="apex-bottom-dock" aria-label="Alternador de Painéis do apex OS">
+      <nav class="apex-bottom-dock" id="apex-bottom-dock" aria-label="Alternador de Painéis do Paws for Trello">
         <button class="dock-pill active" id="dock-btn-inbox" data-dock-toggle="inbox" title="Mostrar/Ocultar Caixa de Entrada (Inbox)">
           <span>📥</span> <span>Caixa de entrada</span>
         </button>
@@ -468,7 +468,7 @@
                   <rect x="5" y="5" width="5.5" height="14" rx="1.5" fill="#fff"/>
                   <rect x="13.5" y="5" width="5.5" height="9" rx="1.5" fill="#fff"/>
                 </svg>
-                <span>apex OS</span>
+                <span>Paws for Trello</span>
               </div>
               <ul class="sidebarmenu">
                 <li><a class="selected" data-pref-tab="settings" data-testid="settings-url"><span data-i18n="preferences.sidebarMenu.settings">Configurações do aplicativo</span></a></li>
@@ -505,7 +505,7 @@
     <div class="board-switcher-box">
       <div class="switcher-search-row">
         <span>🔍</span>
-        <input type="text" id="board-switcher-input" placeholder="Buscar quadros ou cartões no apex OS... (Esc para fechar)" />
+        <input type="text" id="board-switcher-input" placeholder="Buscar quadros ou cartões no Paws for Trello... (Esc para fechar)" />
       </div>
       <div class="switcher-results" id="board-switcher-results"></div>
     </div>
@@ -517,12 +517,12 @@
   <div id="modal-shortcuts-help" class="modal-overlay hidden">
     <div class="newcard-window" style="width:640px;max-width:94vw;min-height:auto;padding:24px;text-align:left;">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
-        <h3 style="margin:0;font-size:18px;">⌨️ Atalhos de Teclado Nativo — apex OS v2.16.10</h3>
+        <h3 style="margin:0;font-size:18px;">⌨️ Atalhos de Teclado Nativo — Paws for Trello v2.16.10.0</h3>
         <button type="button" id="shortcuts-help-close-btn" class="popover-close">✕</button>
       </div>
       <div class="shortcuts-grid">
         <div class="shortcut-item"><span>Cartão Rápido (Global / App)</span><kbd>Ctrl + Alt + Space</kbd></div>
-        <div class="shortcut-item"><span>Focar Janela apex OS</span><kbd>Ctrl + Alt + T</kbd></div>
+        <div class="shortcut-item"><span>Focar Janela Paws for Trello</span><kbd>Ctrl + Alt + T</kbd></div>
         <div class="shortcut-item"><span>Preferências do Sistema</span><kbd>Ctrl + ,</kbd></div>
         <div class="shortcut-item"><span>Buscar na Página (Find in Page)</span><kbd>Ctrl + F</kbd></div>
         <div class="shortcut-item"><span>Alternador Rápido de Quadros</span><kbd>Ctrl + K</kbd> ou <kbd>B</kbd></div>
@@ -558,9 +558,9 @@
   <div id="modal-auth" class="modal-overlay hidden">
     <div class="auth-window-1to1">
       <div class="auth-content-area">
-        <h3 data-i18n="auth.pageTitle" style="margin:0 0 6px;font-size:15px;">apex OS — Autenticação e Credenciais</h3>
+        <h3 data-i18n="auth.pageTitle" style="margin:0 0 6px;font-size:15px;">Paws for Trello — Autenticação e Credenciais</h3>
         <div class="auth-reason" id="auth-modal-reason">
-          Configure suas credenciais da API, Proxy ou Token de Agente do apex OS.
+          Configure suas credenciais da API, Proxy ou Token de Agente do Paws for Trello.
         </div>
         <label class="auth-label" data-i18n="auth.input.username.label">Nome de usuário / API Key</label>
         <input type="text" id="auth-username-input" class="auth-input" placeholder="ex: joaonicolas ou API Key" />
@@ -591,11 +591,11 @@
             <rect x="5" y="5" width="5.5" height="14" rx="1.5" fill="#fff"/>
             <rect x="13.5" y="5" width="5.5" height="9" rx="1.5" fill="#fff"/>
           </svg>
-          <span class="welcome-brand-title">apex OS</span>
+          <span class="welcome-brand-title">Paws for Trello</span>
         </div>
         <div class="cta">
           <h1 data-i18n="welcome.highlight">Reúna, organize e resolva suas tarefas de qualquer lugar.</h1>
-          <p data-i18n="welcome.text">Chega de bagunça e caos. Aumente sua produtividade com o apex OS.</p>
+          <p data-i18n="welcome.text">Chega de bagunça e caos. Aumente sua produtividade com o Paws for Trello.</p>
           <a href="#" class="button" id="welcome-continue-btn" data-testid="login-button" data-i18n="welcome.button.login">Fazer Login</a>
           <a href="#" class="button secondary" id="welcome-signup-btn" data-testid="signup-button" data-i18n="welcome.button.signUp">Criar Conta</a>
           <a href="#" class="button secondary" id="welcome-test-offline-btn" style="margin-left:10px;font-size:13px;">Testar Tela Offline</a>

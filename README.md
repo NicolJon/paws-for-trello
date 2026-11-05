@@ -70,13 +70,16 @@ Ou via HTTP remoto (após deploy na Vercel):
 ```
 
 **Ferramentas MCP Disponíveis (`tools/list` / `tools/call`)**:
-- `list_boards`
-- `get_board`
-- `create_card`
-- `move_card`
-- `search_cards`
-- `generate_google_doc_spec`
-- `sync_google_sheets`
+- `list_boards`: Lista todos os quadros, listas e cartões.
+- `get_board`: Retorna dados completos de um quadro específico.
+- `create_card`: Cria cartões na Inbox ou em listas de qualquer quadro.
+- `update_card`: Atualiza título, descrição, prazo, status ou checklist.
+- `move_card`: Move cartões entre listas ou quadros.
+- `add_comment`: Adiciona comentários e registros de atividade aos cartões.
+- `triage_inbox`: Faz triagem automática de itens da Inbox para quadros.
+- `search_cards`: Busca textual global em cartões e etiquetas.
+- `generate_google_doc_spec`: Gera especificações prontas para o Google Docs.
+- `sync_google_sheets`: Sincroniza dados com o Google Sheets via bridge.
 
 ### 2. Endpoints REST API (`/api/v1/...`)
 - `GET /api/v1/workspace` & `POST /api/v1/workspace`
@@ -87,10 +90,26 @@ Ou via HTTP remoto (após deploy na Vercel):
 
 ---
 
-## 🚀 Como Executar Localmente e Fazer Deploy
+## 🚀 Como Executar Localmente, Deploy no GitHub e na Vercel
 
+### 1. Execução Local
 ```bash
-# Iniciar servidor local na porta 3000
 npm start
+# Acesse http://localhost:3000
 ```
-Acesse `http://localhost:3000`.
+
+### 2. Versionamento e Push no GitHub
+```bash
+git add .
+git commit -m "feat(paws-for-trello): clone 1:1 exato com integração Sheets/Docs e Antigravity/Codex"
+git push -u origin main
+```
+
+### 3. Deploy na Vercel
+```bash
+# Opção 1: Via Vercel CLI
+npx vercel --prod
+
+# Opção 2: Conectar o repositório GitHub diretamente no painel da Vercel
+# O arquivo vercel.json já está configurado com rewrites e CORS.
+```

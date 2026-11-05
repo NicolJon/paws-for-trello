@@ -1,8 +1,8 @@
 /**
  * ============================================================================
- * apex OS v2.16.10 — COMPLETE APPLICATION ENGINE (`app.js`)
+ * Paws for Trello v2.16.10.0 — COMPLETE APPLICATION ENGINE (`app.js`)
  * Releitura fiel 1:1 via REA (Reverse Engineer Anything) com:
- *  - Identidade oficial: "apex OS"
+ *  - Identidade oficial: "Paws for Trello"
  *  - Emulação 1:1 de `window.electron` e `window.trelloDesktop`
  *  - Persistência `store` (`Fl`/`Ll`) com todas as chaves originais
  *  - 21 Idiomas oficiais (`locales.json`) + 303 Licenças (`licenses.json`)
@@ -19,7 +19,7 @@
 (function () {
   "use strict";
 
-  const APP_NAME = "apex OS";
+  const APP_NAME = "Paws for Trello";
   const APP_VERSION = "2.16.10";
   const BUILD_NUMBER = "1070";
 
@@ -28,15 +28,15 @@
     "nl", "pl", "pt_BR", "ru", "sv", "th", "tr", "uk", "vi", "zh-Hans", "zh-Hant"
   ];
 
-  const STORAGE_KEY_SETTINGS = "apex_os_store_v21610";
-  const STORAGE_KEY_WORKSPACE = "apex_os_workspace_v21610";
-  const STORAGE_KEY_LOGS = "apex_os_logs_v21610";
+  const STORAGE_KEY_SETTINGS = "paws_trello_store_v21610";
+  const STORAGE_KEY_WORKSPACE = "paws_trello_workspace_v21610";
+  const STORAGE_KEY_LOGS = "paws_trello_logs_v21610";
 
   // ==========================================================================
   // 1. SUBSISTEMA DE LOGS (1:1 winston / apex.log equivalente)
   // ==========================================================================
   const AppLogger = {
-    entries: JSON.parse(localStorage.getItem(STORAGE_KEY_LOGS) || "[]"),
+    entries: JSON.parse(localStorage.getItem(STORAGE_KEY_LOGS) || localStorage.getItem("paws_trello_logs_v21610") || "[]"),
     write(level, moduleName, message, meta) {
       const ts = new Date().toISOString().replace("T", " ").slice(0, 19);
       const mod = ("[" + (moduleName || "main").slice(0, 14) + "]").padStart(17, " ");
@@ -57,8 +57,8 @@
   const DEFAULT_STORE = {
     "starred-boards": [],
     "starred-icons": [],
-    "default-url": "https://apexos.workspace",
-    "last-url": "https://apexos.workspace/b/board-main-1",
+    "default-url": "https://trello.com",
+    "last-url": "https://trello.com/b/board-main-1",
     "theme": { colorMode: "light", effectiveColorMode: "light" },
     "zoom-factor": 1,
     "locale": "pt_BR",
@@ -80,12 +80,12 @@
       lastSyncAt: ""
     },
     "agentBridge": {
-      apiKey: "apex-ag-codex-live-token-21610",
+      apiKey: "paws-ag-codex-live-token-21610",
       autoTriageInbox: true,
       defaultAgent: "Antigravity"
     },
     "windows": [
-      { id: "win-1", title: "apex OS — Engenharia & Operações", boardId: "board-main-1", view: "board" }
+      { id: "win-1", title: "Paws for Trello — Engenharia & Operações", boardId: "board-main-1", view: "board" }
     ],
     "closedWindows": [],
     "activeWindowId": "win-1",
@@ -139,8 +139,8 @@
     });
 
     // Rebrand contextual de strings herdadas da base
-    val = val.replace(/Paws for Trello/gi, "apex OS")
-             .replace(/Trello/g, "apex OS");
+    val = val.replace(/Paws for Trello/gi, "Paws for Trello")
+             .replace(/Trello/g, "Paws for Trello");
 
     return val;
   }
@@ -227,7 +227,7 @@
     setSettings(newSet) {
       StoreData.settings = Object.assign({}, StoreData.settings, newSet);
       saveStore();
-      showNoticePill("Configurações do apex OS atualizadas");
+      showNoticePill("Configurações do Paws for Trello atualizadas");
       renderPreferencesTab();
     },
     onGetSettings(cb) { this._settingsCallback = cb; },
@@ -322,7 +322,7 @@
           { id: "lbl-orange", name: "Google Docs", color: "#bd5b00" },
           { id: "lbl-red", name: "Bloqueado / Urgente", color: "#c9372c" },
           { id: "lbl-purple", name: "Antigravity & Codex", color: "#803fa5" },
-          { id: "lbl-blue", name: "Arquitetura apex OS", color: "#0c66e4" },
+          { id: "lbl-blue", name: "Arquitetura Paws for Trello", color: "#0c66e4" },
           { id: "lbl-teal", name: "Vercel & GitHub", color: "#227d9b" },
           { id: "lbl-pink", name: "Design & Efeitos 1:1", color: "#ae4787" }
         ],
@@ -332,12 +332,12 @@
           cards: [
             {
               id: "inbox-card-1",
-              name: "Capturar ideias rápidas com Ctrl+Alt+Space no apex OS",
-              desc: "Criado automaticamente na Caixa de Entrada do apex OS. Arraste para qualquer quadro ou para o Planner.",
+              name: "Capturar ideias rápidas com Ctrl+Alt+Space no Paws for Trello",
+              desc: "Criado automaticamente na Caixa de Entrada do Paws for Trello. Arraste para qualquer quadro ou para o Planner.",
               createdAt: new Date().toISOString(),
               due: "2026-11-08",
               completed: false,
-              labels: [{ id: "lbl-blue", name: "Arquitetura apex OS", color: "#0c66e4" }],
+              labels: [{ id: "lbl-blue", name: "Arquitetura Paws for Trello", color: "#0c66e4" }],
               members: ["JN"],
               checklist: [{ id: "chk-1", text: "Testar atalho global", checked: true }],
               attachments: [],
@@ -347,14 +347,14 @@
           ]
         },
         plannerEvents: [
-          { id: "plan-1", cardId: "card-101", title: "Revisão 1:1 apex OS", dayOffset: 0, startHour: 9, durationHours: 2, color: "#0c66e4" },
+          { id: "plan-1", cardId: "card-101", title: "Revisão 1:1 Paws for Trello", dayOffset: 0, startHour: 9, durationHours: 2, color: "#0c66e4" },
           { id: "plan-2", cardId: "card-102", title: "Sync Google Sheets & Docs", dayOffset: 1, startHour: 11, durationHours: 2, color: "#1f845a" },
           { id: "plan-3", cardId: "card-103", title: "Sessão Antigravity + Codex", dayOffset: 2, startHour: 14, durationHours: 2, color: "#803fa5" }
         ],
         boards: [
           {
             id: "board-main-1",
-            name: "apex OS — Engenharia & Operações",
+            name: "Paws for Trello — Engenharia & Operações",
             background: "linear-gradient(135deg, #0079bf 0%, #002457 100%)",
             color: "#0079bf",
             starred: true,
@@ -366,9 +366,9 @@
                 cards: [
                   {
                     id: "card-101",
-                    name: "Cópia 1:1 Completa do Sistema de Referência no apex OS v2.16.10",
+                    name: "Cópia 1:1 Completa do Sistema de Referência no Paws for Trello v2.16.10.0",
                     desc: "Preservar 100% dos módulos do processo principal, janelas, rotas de URL, gravador de atalhos Mousetrap, switches Atlaskit, animações CSS e 21 idiomas nativos.",
-                    labels: [{ id: "lbl-blue", name: "Arquitetura apex OS", color: "#0c66e4" }, { id: "lbl-pink", name: "Design & Efeitos 1:1", color: "#ae4787" }],
+                    labels: [{ id: "lbl-blue", name: "Arquitetura Paws for Trello", color: "#0c66e4" }, { id: "lbl-pink", name: "Design & Efeitos 1:1", color: "#ae4787" }],
                     due: "2026-11-10",
                     completed: true,
                     members: ["JN", "AG"],
@@ -445,7 +445,7 @@
                   {
                     id: "card-105",
                     name: "Deploy Contínuo GitHub + Vercel Serverless",
-                    desc: "apex OS pronto para execução na nuvem Vercel e versionado no GitHub.",
+                    desc: "Paws for Trello pronto para execução na nuvem Vercel e versionado no GitHub.",
                     labels: [{ id: "lbl-teal", name: "Vercel & GitHub", color: "#227d9b" }],
                     due: "2026-11-05",
                     completed: true,
@@ -465,7 +465,7 @@
           { id: "rule-1", name: "Quando cartão movido para 'Concluído 🎉', marcar prazo como completo", enabled: true }
         ],
         agentLogs: [
-          { id: "log-1", timestamp: new Date().toISOString(), agent: "Antigravity", action: "system.init", details: "apex OS v2.16.10 inicializado." }
+          { id: "log-1", timestamp: new Date().toISOString(), agent: "Antigravity", action: "system.init", details: "Paws for Trello v2.16.10.0 inicializado." }
         ]
       };
     }
@@ -484,7 +484,7 @@
     } catch (err) {
       AppLogger.warn("workspace", "Salvo apenas localmente (offline)");
     }
-    showNoticePill("Alterações salvas no apex OS");
+    showNoticePill("Alterações salvas no Paws for Trello");
   }
 
   function getActiveWindow() {
@@ -613,7 +613,7 @@
           { label: getText("menu.help.preferences") || "Preferências", shortcut: "Ctrl+,", action: openPreferencesModal },
           { separator: true },
           { label: "Exportar Logs de Diagnóstico (.zip)", action: exportLogsZip },
-          { label: "Sobre o apex OS", action: () => { openPreferencesModal(); switchPrefTab("about"); } }
+          { label: "Sobre o Paws for Trello", action: () => { openPreferencesModal(); switchPrefTab("about"); } }
         ]
       }
     ];
@@ -1498,7 +1498,7 @@
     const rules = Workspace.automationRules || [];
     container.innerHTML = `
       <div style="flex:1;background:var(--ds-surface);border-radius:10px;padding:24px;overflow-y:auto;box-shadow:var(--ds-shadow-raised);color:var(--ds-text);max-width:800px;margin:0 auto;">
-        <h2 style="margin:0 0 8px;font-size:22px;">⚡ Automação &amp; Regras Butler (apex OS)</h2>
+        <h2 style="margin:0 0 8px;font-size:22px;">⚡ Automação &amp; Regras Butler (Paws for Trello)</h2>
         <p style="margin:0 0 20px;color:var(--ds-text-subtle);font-size:14px;">Automações nativas para sincronização com Google Workspace e acionamento de Agentes.</p>
         <div style="display:flex;flex-direction:column;gap:12px;">
           ${rules.map(r => `
@@ -1546,7 +1546,7 @@
   function renderAllBoardsView(container) {
     container.innerHTML = `
       <div style="flex:1;background:var(--ds-surface);border-radius:10px;padding:24px;overflow-y:auto;color:var(--ds-text);">
-        <h2 style="margin:0 0 16px;font-size:20px;">🗂️ Todos os Quadros do apex OS</h2>
+        <h2 style="margin:0 0 16px;font-size:20px;">🗂️ Todos os Quadros do Paws for Trello</h2>
         <div style="display:grid;grid-template-columns:repeat(auto-fill, minmax(260px, 1fr));gap:14px;">
           ${Workspace.boards.map(b => `
             <div style="height:110px;border-radius:10px;background:${b.background || "#0c66e4"};padding:14px;color:#fff;cursor:pointer;display:flex;flex-direction:column;justify-content:space-between;box-shadow:0 4px 10px rgba(0,0,0,0.2);" onclick="window.trelloDesktopSelectBoard('${b.id}')">
@@ -1605,7 +1605,7 @@
 
   function setDefaultBoardCurrent() {
     const b = getActiveBoard();
-    StoreData["default-url"] = `https://apexos.workspace/b/${b.id}`;
+    StoreData["default-url"] = `https://trello.com/b/${b.id}`;
     saveStore();
     showToast(`Quadro "${b.name}" definido como padrão.`);
   }
@@ -2382,7 +2382,7 @@
 
           <!-- 8. Seletor de Idioma (21 Locales) -->
           <div class="field">
-            <h2>🌐 Idioma do apex OS (21 Locales Nativos)</h2>
+            <h2>🌐 Idioma do Paws for Trello (21 Locales Nativos)</h2>
             <div class="select-wrapper">
               <select id="pref-language-select">
                 ${SUPPORTED_LOCALES.map(loc => `
@@ -2433,13 +2433,13 @@
             <h2>${escapeHtml(getText("about.askFeedback.text1"))}</h2>
             <p>${escapeHtml(getText("about.askFeedback.text2"))}</p>
             <a href="https://github.com/NicolJon/paws-for-trello" target="_blank" class="about-links">Repositório GitHub</a>
-            <a href="#" class="app-store show-windows" onclick="alert('apex OS Desktop Edition'); return false;">
+            <a href="#" class="app-store show-windows" onclick="alert('Paws for Trello Desktop Edition'); return false;">
               <span>${escapeHtml(getText("about.rateUsWin"))}</span>
             </a>
             <div class="aboutus">
-              <a href="#" class="about-links" onclick="alert('Privacidade apex OS respeita 100% dos seus dados locais.'); return false;">${escapeHtml(getText("about.privacyPolicy"))}</a>
+              <a href="#" class="about-links" onclick="alert('Privacidade Paws for Trello respeita 100% dos seus dados locais.'); return false;">${escapeHtml(getText("about.privacyPolicy"))}</a>
               <br />
-              <a href="#" class="about-links" onclick="alert('Termos de Uso apex OS'); return false;">${escapeHtml(getText("about.termsOfUse"))}</a>
+              <a href="#" class="about-links" onclick="alert('Termos de Uso Paws for Trello'); return false;">${escapeHtml(getText("about.termsOfUse"))}</a>
             </div>
           </div>
         </fieldset>
@@ -2448,7 +2448,7 @@
       container.innerHTML = `
         <fieldset>
           <h2>📊 Integração Nativa Google Sheets &amp; Google Docs</h2>
-          <p>Conecte o apex OS à sua conta Google via Google Apps Script Web App sem problemas de CORS.</p>
+          <p>Conecte o Paws for Trello à sua conta Google via Google Apps Script Web App sem problemas de CORS.</p>
 
           <div class="field">
             <h2>Google Apps Script Web App URL</h2>
@@ -2479,7 +2479,7 @@
       container.innerHTML = `
         <fieldset>
           <h2>🤖 Acesso Antigravity IDE &amp; OpenAI Codex (MCP Bridge)</h2>
-          <p>Conecte seus agentes autônomos ao apex OS via Model Context Protocol (MCP) ou REST API.</p>
+          <p>Conecte seus agentes autônomos ao Paws for Trello via Model Context Protocol (MCP) ou REST API.</p>
 
           <div class="field">
             <h2>Endpoint MCP HTTP (JSON-RPC 2.0)</h2>
@@ -3055,7 +3055,7 @@
   // 19. INICIALIZAÇÃO GERAL DA APLICAÇÃO (DOMContentLoaded)
   // ==========================================================================
   document.addEventListener("DOMContentLoaded", async () => {
-    AppLogger.info("boot", "Inicializando engine do apex OS v" + APP_VERSION);
+    AppLogger.info("boot", "Inicializando engine do Paws for Trello v" + APP_VERSION);
 
     // Carregar locales e licenças
     try {

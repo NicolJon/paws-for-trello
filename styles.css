@@ -1,5 +1,5 @@
 /**
- * apex OS v2.16.10 — Folha de Estilos 1:1 do Sistema de Referência + Responsividade Total
+ * Paws for Trello v2.16.10.0 — Folha de Estilos 1:1 do Sistema de Referência + Responsividade Total
  *
  * Contém 100% das classes CSS, animações (@keyframes loadingAnim, @keyframes on/off,
  * transições de opacidade e margin-top, switches Atlaskit, gravador de atalhos Mousetrap,
@@ -1298,7 +1298,7 @@ body.full-screen #app-viewport {
 }
 
 /* Bottom Floating Dock (Inbox / Planner / Board / Switcher) */
-.apex-bottom-dock {
+.paws-bottom-dock, .apex-bottom-dock {
   position: absolute;
   bottom: 14px;
   left: 50%;
@@ -1494,7 +1494,7 @@ body.full-screen #app-viewport {
   text-align: center;
 }
 
-.apex-pref-logo {
+.paws-pref-logo, .apex-pref-logo {
   display: inline-flex;
   align-items: center;
   gap: 8px;
@@ -2884,7 +2884,7 @@ button.clear-shortcut:hover {
   .shortcuts-grid {
     grid-template-columns: 1fr;
   }
-  .apex-bottom-dock {
+  .paws-bottom-dock, .apex-bottom-dock {
     width: 94vw;
     justify-content: space-around;
     padding: 4px;

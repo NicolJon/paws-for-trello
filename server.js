@@ -1,5 +1,5 @@
 /**
- * Servidor Local de Desenvolvimento e Produção para apex OS v2.16.10
+ * Servidor Local de Desenvolvimento e Produção para Paws for Trello v2.16.10.0 (Trello Desktop)
  * Serve os arquivos estáticos de `public/` e encaminha `/api/*` e `/1/*` para `api/index.js`.
  */
 const http = require("http");
@@ -31,7 +31,7 @@ const server = http.createServer(async (req, res) => {
 
   let filePath = path.join(PUBLIC_DIR, pathname === "/" ? "index.html" : pathname);
   if (!fs.existsSync(filePath) || fs.statSync(filePath).isDirectory()) {
-    // SPA fallback for apex OS routes (/b/..., /c/..., /u/...)
+    // SPA fallback for Paws for Trello routes (/b/..., /c/..., /u/...)
     filePath = path.join(PUBLIC_DIR, "index.html");
   }
 
@@ -48,5 +48,5 @@ const server = http.createServer(async (req, res) => {
 });
 
 server.listen(PORT, () => {
-  console.log(`⚡ apex OS v2.16.10 (1:1 Reference Edition + Google Workspace + Antigravity/Codex MCP) rodando em http://localhost:${PORT}`);
+  console.log(`⚡ Paws for Trello v2.16.10.0 (Trello Desktop) (1:1 Reference Edition + Google Workspace + Antigravity/Codex MCP) rodando em http://localhost:${PORT}`);
 });
