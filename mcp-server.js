@@ -1,15 +1,15 @@
 #!/usr/bin/env node
 /**
- * Paws for Trello v2.16.10 — Standalone Stdio MCP Server
- * Permite conectar o Paws for Trello diretamente no Antigravity IDE ou no OpenAI Codex CLI via stdio!
+ * apex OS v2.16.10 — Standalone Stdio MCP Server
+ * Permite conectar o apex OS diretamente no Antigravity IDE ou no OpenAI Codex CLI via stdio!
  *
  * Exemplo de uso no mcp_config.json (Antigravity) ou config.toml (Codex):
  * {
  *   "mcpServers": {
- *     "paws-for-trello": {
+ *     "apex-os": {
  *       "command": "node",
  *       "args": ["<caminho>/paws-for-trello/mcp-server.js"],
- *       "env": { "PAWS_API_URL": "http://localhost:3000/api/mcp" }
+ *       "env": { "APEX_API_URL": "http://localhost:3000/api/mcp" }
  *     }
  *   }
  * }
@@ -18,7 +18,7 @@
 const readline = require("readline");
 const apiHandler = require("./api/index.js");
 
-const API_URL = process.env.PAWS_API_URL || "";
+const API_URL = process.env.APEX_API_URL || process.env.PAWS_API_URL || "";
 
 async function forwardToLocalOrRemote(rpcMessage) {
   if (API_URL) {
@@ -30,7 +30,6 @@ async function forwardToLocalOrRemote(rpcMessage) {
     return await res.json();
   }
 
-  // Executa diretamente contra o handler em memória
   return new Promise((resolve) => {
     const fakeReq = {
       method: "POST",

@@ -2,8 +2,8 @@
 <html lang="pt_BR" data-theme="light">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Paws for Trello — v2.16.10 (Web + Google Workspace + Antigravity/Codex)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+  <title>apex OS — v2.16.10 (1:1 Reference Edition + Google Workspace + Antigravity &amp; Codex)</title>
   <link rel="icon" type="image/png" href="/assets/StoreLogo.png" />
   <link rel="stylesheet" href="/styles.css" />
   <!-- JSZip para Export Logs (.zip) idêntico ao módulo `dialogs` (Tc) original -->
@@ -12,16 +12,28 @@
 <body class="win32">
 
   <!-- ========================================================================
+       0. LOADING & OFFLINE OVERLAYS (1:1 `loading.css` & `main/preload.js`)
+       ======================================================================== -->
+  <div id="global-loading-spinner" class="loading" aria-hidden="true"></div>
+  <div id="global-offline-overlay" class="offline-message">
+    <div class="offline-issue">
+      <h5>Você está no modo Offline do apex OS</h5>
+      <p>As alterações continuarão sendo salvas localmente e serão sincronizadas assim que a conexão voltar.</p>
+    </div>
+  </div>
+  <div id="global-notice-pill" class="notice">Alterações salvas no apex OS</div>
+
+  <!-- ========================================================================
        1. @atlassian/electron-frame — CUSTOM TITLEBAR + 8 APPLICATION MENUS
        ======================================================================== -->
   <window-frame id="window-frame">
     <div class="left-bar">
-      <window-menu id="window-menu-btn" title="Menu Principal (Alt)">
+      <window-menu id="window-menu-btn" title="Menu do Sistema (Alt)">
         <img src="/assets/c91ccae2ac3e68632c5b.svg" alt="Menu" width="16" height="9" />
       </window-menu>
       <window-title id="window-title">
-        <img src="/assets/Square44x44Logo.targetsize-24_altform-unplated.png" width="16" height="16" alt="Trello" />
-        <span id="window-title-text">Trello</span>
+        <img src="/assets/Square44x44Logo.targetsize-24_altform-unplated.png" width="16" height="16" alt="apex OS" />
+        <span id="window-title-text">apex OS</span>
       </window-title>
 
       <!-- Barra de Menus Nativa (File, Edit, View, History, Boards, Window, Developer, Help) -->
@@ -50,45 +62,53 @@
   <div id="app-viewport">
 
     <!-- Top Navigation Bar -->
-    <header class="trello-topnav">
+    <header class="trello-topnav" data-desktop-id="header">
       <div class="trello-topnav-left">
         <button class="trello-brand-btn" id="btn-toggle-sidebar" title="Alternar Menu Lateral">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-            <rect x="3" y="3" width="18" height="18" rx="3" fill="#0c66e4"/>
+            <rect x="3" y="3" width="18" height="18" rx="4" fill="#0c66e4"/>
             <rect x="6" y="6" width="5" height="11" rx="1.2" fill="#fff"/>
             <rect x="13" y="6" width="5" height="7" rx="1.2" fill="#fff"/>
           </svg>
-          <span>Paws for Trello</span>
-          <span style="font-size:10px;background:rgba(255,255,255,0.16);padding:2px 6px;border-radius:4px;font-weight:600;">v2.16.10</span>
+          <span class="brand-name-text">apex OS</span>
+          <span class="brand-version-pill">v2.16.10</span>
         </button>
 
-        <button class="topnav-btn" id="btn-open-boards-menu" title="Quadros e Favoritos (Ctrl+Shift+B)">
-          <span>📋</span> <span data-i18n="menu.boards.menuText">Quadros</span>
+        <button class="topnav-btn" id="btn-open-boards-menu" title="Alternador de Quadros (B ou Ctrl+K)">
+          <span>📋</span> <span class="btn-label-text" data-i18n="menu.boards.menuText">Quadros</span>
         </button>
 
         <button class="topnav-btn" id="btn-toggle-inbox" title="Caixa de Entrada (Inbox)">
-          <span>📥</span> <span data-i18n="newcard.input.inbox.label">Caixa de entrada</span>
-          <span id="inbox-badge-count" style="background:#0c66e4;color:#fff;padding:1px 6px;border-radius:10px;font-size:11px;">2</span>
+          <span>📥</span> <span class="btn-label-text" data-i18n="newcard.input.inbox.label">Caixa de entrada</span>
+          <span id="inbox-badge-count" class="topnav-badge">2</span>
+        </button>
+
+        <button class="topnav-btn" id="btn-toggle-planner-split" title="Alternar Planner / Calendário em Split-Screen">
+          <span>📅</span> <span class="btn-label-text">Planner</span>
         </button>
 
         <button class="topnav-btn primary-create" id="btn-quick-add-card" title="Cartão Rápido (Ctrl+Alt+Space)">
-          <span>+</span> <span data-i18n="menu.file.quickCard">Cartão Rápido</span>
+          <span>+</span> <span class="btn-label-text" data-i18n="menu.file.quickCard">Criar</span>
         </button>
 
         <button class="topnav-btn google-btn" id="btn-google-workspace" title="Sincronizar Google Sheets e Criar Google Docs">
-          <span>📊</span> <span>Google Sheets &amp; Docs</span>
+          <span>📊</span> <span class="btn-label-text">Google Sheets &amp; Docs</span>
         </button>
 
         <button class="topnav-btn agent-btn" id="btn-ai-agents-hub" title="Acesso Antigravity IDE &amp; OpenAI Codex (MCP / API)">
-          <span>🤖</span> <span>Antigravity &amp; Codex</span>
+          <span>🤖</span> <span class="btn-label-text">Antigravity &amp; Codex</span>
         </button>
       </div>
 
       <div class="trello-topnav-right">
         <div class="topnav-search">
-          <span style="position:absolute;left:9px;top:7px;font-size:13px;opacity:0.7;">🔍</span>
-          <input type="text" id="global-filter-input" placeholder="Filtrar cartões ou Ctrl+F..." />
+          <span class="search-icon-prefix" aria-label="search">🔍</span>
+          <input type="text" id="global-filter-input" placeholder="Filtrar ou Ctrl+F..." />
         </div>
+
+        <button class="topnav-btn" id="btn-shortcuts-help" title="Atalhos de Teclado (?)">
+          <span>⌨️</span>
+        </button>
 
         <button class="topnav-btn" id="btn-theme-toggle" title="Alternar Tema Claro / Escuro">
           <span id="theme-icon">🌙</span>
@@ -98,33 +118,39 @@
           <span>👋</span>
         </button>
 
-        <button class="topnav-btn" id="btn-open-preferences" title="Preferências (Ctrl+,)">
+        <button class="topnav-btn paws-open-preferences" id="btn-open-preferences" title="Preferências (Ctrl+,)">
           <span>⚙️</span>
         </button>
 
-        <button class="topnav-btn" id="btn-switch-account" title="Alternar Conta / Gerenciar Perfil" style="padding:4px 8px;">
-          <span id="user-avatar-chip" style="width:24px;height:24px;border-radius:50%;background:#0c66e4;color:#fff;display:inline-flex;align-items:center;justify-content:center;font-weight:700;font-size:11px;">JN</span>
+        <button class="topnav-btn js-open-header-member-menu" id="btn-switch-account" title="Alternar Conta / Gerenciar Perfil" style="padding:4px 8px;">
+          <span id="user-avatar-chip" class="avatar-chip">JN</span>
         </button>
       </div>
     </header>
 
-    <!-- Main Split Workspace: Sidebar + Inbox Dock + Board/Table/Calendar/MyCards View -->
-    <div class="workspace-main">
+    <!-- Main Split Workspace: Sidebar + Inbox Split + Planner Split + Board/Table/Calendar/MyCards View -->
+    <div class="workspace-main" id="workspace-main">
+
+      <!-- Mobile Sidebar Backdrop -->
+      <div class="sidebar-backdrop hidden" id="sidebar-backdrop"></div>
 
       <!-- Left Workspace Sidebar -->
       <aside class="workspace-sidebar" id="workspace-sidebar">
         <div class="sidebar-section">
-          <div class="sidebar-section-title">Navegação Trello</div>
+          <div class="sidebar-section-title">
+            <span>Navegação apex OS</span>
+            <button class="sidebar-collapse-btn" id="btn-collapse-sidebar" title="Recolher Barra Lateral">[«]</button>
+          </div>
           <div class="sidebar-nav-item active" data-view="board" id="nav-view-board">
             <span>📌 Quadro Atual</span>
           </div>
           <div class="sidebar-nav-item" data-view="all-boards" id="nav-view-all-boards">
             <span>🗂️ Todos os Quadros</span>
-            <span style="font-size:10px;opacity:0.6;">Ctrl+Shift+B</span>
+            <span class="nav-shortcut-hint">Ctrl+Shift+B</span>
           </div>
           <div class="sidebar-nav-item" data-view="my-cards" id="nav-view-my-cards">
             <span>👤 Meus Cartões</span>
-            <span style="font-size:10px;opacity:0.6;">Ctrl+Shift+M</span>
+            <span class="nav-shortcut-hint">Ctrl+Shift+M</span>
           </div>
           <div class="sidebar-nav-item" data-view="table" id="nav-view-table">
             <span>📑 Visão de Tabela (Sheets)</span>
@@ -132,8 +158,11 @@
           <div class="sidebar-nav-item" data-view="calendar" id="nav-view-calendar">
             <span>📅 Calendário / Planner</span>
           </div>
+          <div class="sidebar-nav-item" data-view="butler" id="nav-view-butler">
+            <span>⚡ Automação &amp; Regras</span>
+          </div>
           <div class="sidebar-nav-item" data-view="activity" id="nav-view-activity">
-            <span>⚡ Log de Atividades &amp; IA</span>
+            <span>🤖 Log Antigravity &amp; Codex</span>
           </div>
         </div>
 
@@ -147,74 +176,165 @@
         <div class="sidebar-section">
           <div class="sidebar-section-title">
             <span>Seus Quadros</span>
-            <button id="btn-new-board-sidebar" style="background:none;border:none;color:#B6C2CF;cursor:pointer;font-size:15px;" title="Criar Novo Quadro">+</button>
+            <button id="btn-new-board-sidebar" class="sidebar-add-btn" title="Criar Novo Quadro">+</button>
           </div>
           <div id="all-boards-sidebar-list"></div>
         </div>
 
-        <div class="sidebar-section" style="margin-top:auto;border-top:1px solid rgba(255,255,255,0.1);padding-top:10px;">
+        <div class="sidebar-section sidebar-footer-section">
           <div class="sidebar-nav-item" id="sidebar-btn-sheets-sync">
             <span>🟢 Sincronizar Google Sheets</span>
           </div>
           <div class="sidebar-nav-item" id="sidebar-btn-mcp-status">
-            <span>🤖 MCP Server: Online</span>
+            <span>🤖 MCP Bridge: Online</span>
           </div>
         </div>
       </aside>
 
-      <!-- Trello Inbox Split Dock -->
+      <!-- Split-Screen Pane 1: Inbox (`Caixa de Entrada`) -->
       <section class="inbox-dock" id="inbox-dock">
         <div class="inbox-header">
-          <h3>📥 <span data-i18n="newcard.input.inbox.label">Caixa de entrada</span></h3>
-          <button id="btn-close-inbox" style="background:none;border:none;color:#fff;cursor:pointer;opacity:0.7;">✕</button>
+          <div style="display:flex;align-items:center;gap:8px;">
+            <h3>📥 <span data-i18n="newcard.input.inbox.label">Caixa de entrada</span></h3>
+          </div>
+          <div style="display:flex;align-items:center;gap:6px;">
+            <button id="btn-inbox-ai-triage" class="inbox-mini-btn" title="Triagem Inteligente via Codex/Antigravity">🤖 Triar</button>
+            <button id="btn-close-inbox" class="inbox-close-btn" title="Ocultar Caixa de Entrada">✕</button>
+          </div>
         </div>
         <div class="inbox-quick-form">
-          <input type="text" id="inbox-quick-input" placeholder="Capturar ideia na Caixa de entrada... (Enter)" />
+          <input type="text" id="inbox-quick-input" placeholder="Adicionar um cartão na Caixa de entrada... (Enter)" />
         </div>
-        <div class="inbox-cards-list" id="inbox-cards-list"></div>
+        <div class="inbox-cards-list" id="inbox-cards-list" data-drop-zone="inbox"></div>
       </section>
 
-      <!-- Active Board / View Canvas -->
+      <!-- Split-Screen Pane 2: Planner / Agenda Diária & Semanal -->
+      <section class="planner-dock hidden" id="planner-dock">
+        <div class="planner-header">
+          <h3>📅 <span>Planner &amp; Timeblocking</span></h3>
+          <div style="display:flex;gap:6px;align-items:center;">
+            <button id="btn-add-planner-slot" class="inbox-mini-btn" title="Agendar Bloco de Foco">+ Bloco</button>
+            <button id="btn-close-planner" class="inbox-close-btn" title="Ocultar Planner">✕</button>
+          </div>
+        </div>
+        <div class="planner-subbar">
+          <span>Arraste cartões ou clique em + Bloco para reservar horários.</span>
+        </div>
+        <div class="planner-timeline" id="planner-timeline"></div>
+      </section>
+
+      <!-- Split-Screen Pane 3: Active Board / View Canvas -->
       <main class="board-canvas-wrapper" id="board-canvas-wrapper">
         <div class="board-header-bar">
           <div class="board-header-left">
-            <h2 class="board-title-heading" id="active-board-title" title="Clique para renomear o quadro">Paws for Trello</h2>
+            <h2 class="board-title-heading" id="active-board-title" title="Clique para renomear o quadro">apex OS</h2>
             <button class="board-pill-btn" id="btn-star-current-board" title="Marcar/Desmarcar com Estrela">⭐</button>
             <button class="board-pill-btn" id="btn-set-default-board" title="Definir como Quadro Padrão (Ctrl+Shift+D)">📌 Padrão</button>
-            <div style="display:flex;gap:4px;margin-left:8px;">
+            <div class="board-view-switcher">
               <button class="board-pill-btn active" data-switch-mode="board">Quadro</button>
               <button class="board-pill-btn" data-switch-mode="table">Tabela</button>
               <button class="board-pill-btn" data-switch-mode="calendar">Calendário</button>
+              <button class="board-pill-btn" data-switch-mode="butler">Automação</button>
             </div>
           </div>
 
           <div class="board-header-right">
+            <button class="board-pill-btn" id="btn-open-filter-popover" title="Filtrar Cartões por Etiqueta, Membro ou Prazo (F)">
+              🌪️ Filtrar <span id="active-filter-badge" class="hidden">●</span>
+            </button>
+            <button class="board-pill-btn" id="btn-open-bg-picker" title="Personalizar Plano de Fundo e Tema do Quadro">
+              🎨 Fundo
+            </button>
             <button class="board-pill-btn" id="btn-export-board-sheets" title="Sincronizar ou Exportar este Quadro para o Google Sheets">
               📊 Sync Sheets
             </button>
             <button class="board-pill-btn" id="btn-export-board-doc" title="Gerar Relatório de Especificação no Google Docs">
-              📄 Gerar Google Doc
+              📄 Google Doc
             </button>
             <button class="board-pill-btn" id="btn-run-agent-triage" title="Executar Triagem da Inbox via Antigravity / Codex">
               🤖 Triagem IA
             </button>
-            <button class="board-pill-btn" id="btn-add-list-header">+ Adicionar Lista</button>
+            <button class="board-pill-btn" id="btn-add-list-header">+ Lista</button>
           </div>
         </div>
 
-        <!-- Conteúdo Dinâmico (Kanban Lists, Table View, Calendar View, All Boards, My Cards, Activity) -->
+        <!-- Popover de Filtro do Quadro -->
+        <div id="board-filter-popover" class="board-popover hidden">
+          <div class="popover-header">
+            <span>Filtrar Cartões no Quadro</span>
+            <button id="btn-close-filter-popover" class="popover-close">✕</button>
+          </div>
+          <div class="popover-body">
+            <label class="popover-label">Palavra-chave</label>
+            <input type="text" id="filter-keyword-input" class="popover-input" placeholder="Digite um termo..." />
+
+            <label class="popover-label" style="margin-top:10px;">Status de Prazo</label>
+            <div class="filter-chips-row">
+              <button class="filter-chip active" data-filter-due="all">Todos</button>
+              <button class="filter-chip" data-filter-due="overdue">Atrasados</button>
+              <button class="filter-chip" data-filter-due="completed">Concluídos</button>
+              <button class="filter-chip" data-filter-due="nodue">Sem data</button>
+            </div>
+
+            <label class="popover-label" style="margin-top:10px;">Etiquetas</label>
+            <div id="filter-labels-list" class="filter-chips-row"></div>
+
+            <label class="popover-label" style="margin-top:10px;">Membros / Agentes</label>
+            <div id="filter-members-list" class="filter-chips-row"></div>
+
+            <div style="margin-top:12px;display:flex;justify-content:flex-end;">
+              <button id="btn-clear-all-filters" class="pref-btn secondary" style="padding:5px 10px;font-size:12px;">Limpar Filtros</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Popover de Plano de Fundo do Quadro -->
+        <div id="board-bg-popover" class="board-popover hidden">
+          <div class="popover-header">
+            <span>Plano de Fundo do Quadro</span>
+            <button id="btn-close-bg-popover" class="popover-close">✕</button>
+          </div>
+          <div class="popover-body">
+            <div class="bg-swatches-grid" id="bg-swatches-grid"></div>
+          </div>
+        </div>
+
+        <!-- Conteúdo Dinâmico (Kanban Lists, Table View, Calendar View, All Boards, My Cards, Automation, Activity) -->
         <div class="kanban-lists-container" id="workspace-dynamic-content"></div>
       </main>
+
+      <!-- ====================================================================
+           BOTTOM FLOATING DOCK BAR (Split-Screen Switcher: Inbox | Planner | Board | Switcher)
+           ==================================================================== -->
+      <nav class="apex-bottom-dock" id="apex-bottom-dock" aria-label="Alternador de Painéis do apex OS">
+        <button class="dock-pill active" id="dock-btn-inbox" data-dock-toggle="inbox" title="Mostrar/Ocultar Caixa de Entrada (Inbox)">
+          <span>📥</span> <span>Caixa de entrada</span>
+        </button>
+        <button class="dock-pill" id="dock-btn-planner" data-dock-toggle="planner" title="Mostrar/Ocultar Planner &amp; Agenda">
+          <span>📅</span> <span>Planner</span>
+        </button>
+        <button class="dock-pill active" id="dock-btn-board" data-dock-toggle="board" title="Mostrar/Ocultar Quadro Principal">
+          <span>📋</span> <span>Quadro</span>
+        </button>
+        <div class="dock-divider"></div>
+        <button class="dock-pill" id="dock-btn-switcher" title="Alternar Quadro Rápido (B ou Ctrl+K)">
+          <span>🔍</span> <span>Alternar quadros</span>
+        </button>
+      </nav>
     </div>
 
     <!-- ======================================================================
-         3. DOWNLOADS BOTTOM BAR (`downloads` bundle yg — 56px height)
+         3. DOWNLOADS BOTTOM BAR (`downloads` bundle yg — 56px height, slide transition)
          ====================================================================== -->
-    <div id="downloads-bar-container" class="hidden">
+    <div id="downloads-bar-container" class="downloads-wrapper downloads--hidden">
       <div class="downloads" data-testid="downloads-bar">
         <div class="downloads__download-items" id="downloads-items-list"></div>
         <div class="downloads__close-button">
-          <div class="close-button" id="btn-close-downloads-bar" title="Fechar barra de downloads">✕</div>
+          <div class="close-button" id="btn-close-downloads-bar" data-testid="close-button" title="Fechar barra de downloads">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 10.586l4.95-4.95 1.414 1.414-4.95 4.95 4.95 4.95-1.414 1.414-4.95-4.95-4.95 4.95-1.414-1.414 4.95-4.95-4.95-4.95L7.05 5.636z"/>
+            </svg>
+          </div>
         </div>
       </div>
     </div>
@@ -238,10 +358,19 @@
   </div>
 
   <!-- ========================================================================
-       5. QUICK ADD CARD MODAL (`newcard` bundle ug/dg — 500x400px)
+       5. QUICK ADD CARD MODAL (`newcard` bundle ug/dg — 1:1 DOM & Alert Overlay)
        ======================================================================== -->
   <div id="modal-newcard" class="modal-overlay hidden">
-    <div class="newcard-window" role="dialog" aria-labelledby="newcard-modal-title">
+    <div class="newcard-window" id="newcard-window-box" role="dialog" aria-labelledby="newcard-modal-title">
+      <!-- Offline / Error Alert Overlay (1:1 `.alert` + `.alertbg` from `newcard/index.js`) -->
+      <div id="newcard-alert-overlay" class="hidden">
+        <div class="alert">
+          <p class="text" data-i18n="newcard.alert.offline.text">Parece que você está desconectado.</p>
+          <a href="#" class="button" id="newcard-alert-retry-btn" data-i18n="newcard.button.tryAgain">Tentar novamente</a>
+        </div>
+        <div class="alertbg"></div>
+      </div>
+
       <div class="newcard-header">
         <h3 class="newcard-title" id="newcard-modal-title" data-i18n="newcard.pageTitle">Criar cartão</h3>
         <button type="button" class="newcard-close-button" id="newcard-close-btn" data-testid="newcard-close-button">
@@ -252,148 +381,240 @@
         </button>
       </div>
 
-      <!-- Atlaskit Tabs: Board vs Inbox -->
+      <!-- Atlaskit Tabs: Inbox (0) vs Board (1) — exact order from `newcard/index.js` -->
       <div class="destination-tabs" role="tablist">
-        <div class="destination-tab" role="tab" id="tab-dest-board" aria-selected="true" data-dest="board" data-i18n="newcard.input.board.label">Quadro</div>
         <div class="destination-tab" role="tab" id="tab-dest-inbox" aria-selected="false" data-dest="inbox" data-i18n="newcard.input.inbox.label">Caixa de entrada</div>
+        <div class="destination-tab" role="tab" id="tab-dest-board" aria-selected="true" data-dest="board" data-i18n="newcard.input.board.label">Quadro</div>
       </div>
 
-      <form id="newcard-form">
-        <!-- Board & List Selectors (Visible when destination === 'board') -->
-        <div class="row" id="newcard-board-list-row">
-          <div class="width">
-            <span class="field-label" data-i18n="newcard.input.board.label">Quadro</span>
-            <label class="box-label">
-              <select id="newcard-board-select" class="overlay-select"></select>
-              <span class="value" id="newcard-board-display">Selecionar quadro</span>
-            </label>
-          </div>
-          <div class="width last">
-            <span class="field-label"><span data-i18n="newcard.input.list.label">Lista</span> <span class="required">*</span></span>
-            <label class="box-label">
-              <select id="newcard-list-select" class="overlay-select"></select>
-              <span class="value" id="newcard-list-display">Selecionar lista</span>
-            </label>
-          </div>
-        </div>
+      <!-- Inline API Error Banner (`.inlineerror` from `newcard/index.js`) -->
+      <p id="newcard-inline-error" class="inlineerror hidden">
+        <span data-i18n="newcard.inlineError.generalError">Ocorreu um erro.</span>
+        <a href="#" class="tryagain" id="newcard-inline-retry" data-i18n="newcard.button.tryAgain">Tentar novamente</a>
+      </p>
 
+      <form id="newcard-form" novalidate>
         <!-- Card Title -->
         <div class="field-row row">
           <span class="field-label"><span data-i18n="newcard.input.cardTitle.label">Título</span> <span class="required">*</span></span>
-          <label class="box-label">
-            <input type="text" id="newcard-title-input" class="input" placeholder="Título do cartão" required />
+          <label class="box-label" id="newcard-title-box">
+            <input type="text" id="newcard-title-input" class="input" data-testid="card-title-input" placeholder="Título do cartão" />
           </label>
+          <div class="field-error hidden" id="empty-title-error" data-testid="empty-title-error">
+            <span class="error-icon">
+              <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor">
+                <path d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1zm0 10.5a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5zM8.75 8a.75.75 0 0 1-1.5 0V4.75a.75.75 0 0 1 1.5 0V8z"/>
+              </svg>
+            </span>
+            <span data-i18n="newcard.inlineError.emptyTitle">Digite um título para este cartão</span>
+          </div>
         </div>
 
         <!-- Card Description -->
         <div class="row">
           <span class="field-label" data-i18n="newcard.input.description.label">Descrição</span>
           <label class="box-label">
-            <textarea id="newcard-desc-input" class="input" placeholder="Adicionar uma descrição"></textarea>
+            <textarea id="newcard-desc-input" class="input" data-testid="card-description-textarea" placeholder="Adicionar uma descrição"></textarea>
           </label>
         </div>
 
-        <button type="submit" class="submit" data-testid="submit" data-i18n="newcard.button.submit">Criar cartão</button>
+        <!-- Board & List Selectors (Visible when destination === 'board', otherwise `.inbox-spacer`) -->
+        <div class="row" id="newcard-board-list-row">
+          <div class="width">
+            <span class="field-label" data-i18n="newcard.input.board.label">Quadro</span>
+            <label class="box-label">
+              <select id="newcard-board-select" class="overlay-select" data-testid="board-select"></select>
+              <span class="value" id="newcard-board-display">Selecionar quadro</span>
+            </label>
+          </div>
+          <div class="width last">
+            <span class="field-label"><span data-i18n="newcard.input.list.label">Lista</span> <span class="required">*</span></span>
+            <label class="box-label" id="newcard-list-box">
+              <select id="newcard-list-select" class="overlay-select" data-testid="list-select"></select>
+              <span class="value" id="newcard-list-display">Selecionar lista</span>
+            </label>
+            <div class="field-error hidden" id="no-lists-available-error" data-testid="no-lists-available-error">
+              <span class="error-icon">⚠️</span>
+              <span data-i18n="newcard.inlineError.noListsAvailable">Nenhuma lista disponível</span>
+            </div>
+          </div>
+        </div>
+
+        <div id="newcard-inbox-spacer" class="inbox-spacer hidden"></div>
+
+        <button type="submit" class="submit" id="newcard-submit-btn" data-testid="submit" data-i18n="newcard.button.submit">Criar cartão</button>
       </form>
     </div>
   </div>
 
   <!-- ========================================================================
-       6. PREFERENCES WINDOW (`preferences` bundle _g/Ng — 5 Tabs:
-          App Settings, Google Workspace, Antigravity & Codex, Licenses, About)
+       6. PREFERENCES WINDOW (`preferences` bundle _g/Ng — 1:1 DOM Structure:
+          `<section class="preferences visible">`, `.pref-toolbar`, `.scrollable`,
+          `.sidebar`, `.sidebarmenu-wrapper`, `<form class="content">`)
        ======================================================================== -->
   <div id="modal-preferences" class="modal-overlay hidden">
-    <div class="preferences-window">
-      <div class="pref-toolbar">
-        <h5 data-i18n="preferences.title">Preferências</h5>
-        <button id="pref-close-btn" style="background:none;border:none;color:#fff;font-size:18px;cursor:pointer;">✕</button>
-      </div>
-      <div class="pref-body">
-        <aside class="pref-sidebar">
-          <img id="sidebarlogo" src="/assets/Wide310x150Logo.scale-200.png" alt="Trello Logo" style="background:#0079bf;border-radius:6px;padding:4px;" />
-          <ul class="sidebarmenu">
-            <li><a class="selected" data-pref-tab="settings" data-testid="settings-url">⚙️ <span data-i18n="preferences.sidebarMenu.settings">Configurações do aplicativo</span></a></li>
-            <li><a data-pref-tab="google" data-testid="google-url">📊 <span>Google Sheets &amp; Docs</span></a></li>
-            <li><a data-pref-tab="agents" data-testid="agents-url">🤖 <span>Antigravity &amp; Codex</span></a></li>
-            <li><a data-pref-tab="licenses" data-testid="licenses-url">📜 <span data-i18n="preferences.sidebarMenu.licenses">Informações de licenças</span></a></li>
-            <li><a data-pref-tab="about" data-testid="about-url">ℹ️ <span data-i18n="preferences.sidebarMenu.about">Sobre</span></a></li>
-          </ul>
-        </aside>
-
-        <div class="pref-content-scroll" id="pref-tab-container"></div>
-      </div>
+    <div class="preferences-modal-shell">
+      <section class="preferences" id="preferences-section">
+        <div class="pref-toolbar">
+          <h5 data-i18n="preferences.title">Preferências</h5>
+          <button type="button" id="pref-close-btn" class="pref-close-x" title="Fechar (Esc)">✕</button>
+        </div>
+        <div class="scrollable">
+          <div class="sidebar">
+            <div class="sidebarmenu-wrapper">
+              <div id="sidebarlogo" class="apex-pref-logo">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                  <rect width="24" height="24" rx="5" fill="#0c66e4"/>
+                  <rect x="5" y="5" width="5.5" height="14" rx="1.5" fill="#fff"/>
+                  <rect x="13.5" y="5" width="5.5" height="9" rx="1.5" fill="#fff"/>
+                </svg>
+                <span>apex OS</span>
+              </div>
+              <ul class="sidebarmenu">
+                <li><a class="selected" data-pref-tab="settings" data-testid="settings-url"><span data-i18n="preferences.sidebarMenu.settings">Configurações do aplicativo</span></a></li>
+                <li><a data-pref-tab="licenses" data-testid="licenses-url"><span data-i18n="preferences.sidebarMenu.licenses">Informações de licenças</span></a></li>
+                <li><a data-pref-tab="about" data-testid="about-url"><span data-i18n="preferences.sidebarMenu.about">Sobre</span></a></li>
+                <li><a data-pref-tab="google" data-testid="google-url"><span>Google Sheets &amp; Docs</span></a></li>
+                <li><a data-pref-tab="agents" data-testid="agents-url"><span>Antigravity &amp; Codex</span></a></li>
+              </ul>
+            </div>
+          </div>
+          <form data-testid="content" class="content" id="pref-tab-container" onsubmit="return false;"></form>
+        </div>
+      </section>
     </div>
   </div>
 
   <!-- ========================================================================
-       7. CARD DETAIL & GOOGLE DOCS EDITOR MODAL
+       7. RICH CARD BACK MODAL (Labels, Members, Checklists, Due Date, Cover,
+          Attachments, Comments & Activity, Google Docs Spec, Antigravity/Codex)
        ======================================================================== -->
   <div id="modal-card-detail" class="modal-overlay hidden">
-    <div class="preferences-window" style="width:740px;height:auto;max-height:90vh;">
-      <div class="pref-toolbar" style="background:#172B4D;">
-        <h5 id="card-detail-header-title">Detalhes do Cartão</h5>
-        <button id="card-detail-close-btn" style="background:none;border:none;color:#fff;font-size:18px;cursor:pointer;">✕</button>
+    <div class="card-back-window" role="dialog" aria-labelledby="card-detail-header-title">
+      <div class="card-back-cover" id="card-back-cover">
+        <button type="button" id="card-detail-close-btn" class="card-back-close-btn" title="Fechar (Esc)">✕</button>
       </div>
-      <div class="pref-content-scroll" id="card-detail-body"></div>
+      <div class="card-back-scroll" id="card-detail-body"></div>
     </div>
   </div>
 
   <!-- ========================================================================
-       8. PROMPT MODAL (`prompt` bundle Fg/Lg) & AUTH MODAL (`auth` bundle Rg/Vg)
+       8. BOARD SWITCHER MODAL (`Ctrl+K` / `B` Quick Switcher)
+       ======================================================================== -->
+  <div id="modal-board-switcher" class="modal-overlay hidden">
+    <div class="board-switcher-box">
+      <div class="switcher-search-row">
+        <span>🔍</span>
+        <input type="text" id="board-switcher-input" placeholder="Buscar quadros ou cartões no apex OS... (Esc para fechar)" />
+      </div>
+      <div class="switcher-results" id="board-switcher-results"></div>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       9. KEYBOARD SHORTCUTS HELP MODAL (`?`)
+       ======================================================================== -->
+  <div id="modal-shortcuts-help" class="modal-overlay hidden">
+    <div class="newcard-window" style="width:640px;max-width:94vw;min-height:auto;padding:24px;text-align:left;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
+        <h3 style="margin:0;font-size:18px;">⌨️ Atalhos de Teclado Nativo — apex OS v2.16.10</h3>
+        <button type="button" id="shortcuts-help-close-btn" class="popover-close">✕</button>
+      </div>
+      <div class="shortcuts-grid">
+        <div class="shortcut-item"><span>Cartão Rápido (Global / App)</span><kbd>Ctrl + Alt + Space</kbd></div>
+        <div class="shortcut-item"><span>Focar Janela apex OS</span><kbd>Ctrl + Alt + T</kbd></div>
+        <div class="shortcut-item"><span>Preferências do Sistema</span><kbd>Ctrl + ,</kbd></div>
+        <div class="shortcut-item"><span>Buscar na Página (Find in Page)</span><kbd>Ctrl + F</kbd></div>
+        <div class="shortcut-item"><span>Alternador Rápido de Quadros</span><kbd>Ctrl + K</kbd> ou <kbd>B</kbd></div>
+        <div class="shortcut-item"><span>Todos os Quadros</span><kbd>Ctrl + Shift + B</kbd></div>
+        <div class="shortcut-item"><span>Meus Cartões</span><kbd>Ctrl + Shift + M</kbd></div>
+        <div class="shortcut-item"><span>Definir Quadro Padrão</span><kbd>Ctrl + Shift + D</kbd></div>
+        <div class="shortcut-item"><span>Nova Janela de Trabalho</span><kbd>Ctrl + N</kbd></div>
+        <div class="shortcut-item"><span>Restaurar Janela Fechada</span><kbd>Ctrl + Shift + T</kbd></div>
+        <div class="shortcut-item"><span>Quadros com Estrela 1 a 9</span><kbd>Ctrl + 1 .. 9</kbd></div>
+        <div class="shortcut-item"><span>Tela Cheia (Fullscreen)</span><kbd>F11</kbd></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       10. PROMPT MODAL (`prompt` bundle Fg/Lg) & AUTH MODAL (`auth` bundle Rg/Vg)
        ======================================================================== -->
   <div id="modal-prompt" class="modal-overlay hidden">
-    <div class="newcard-window" style="width:420px;min-height:auto;padding:20px 24px;text-align:left;">
-      <h3 id="prompt-modal-message" style="margin:0 0 12px;font-size:16px;">Informe o valor:</h3>
-      <input type="text" id="prompt-modal-input" style="width:100%;padding:8px 10px;border:2px solid var(--ds-border-input);border-radius:4px;font-size:15px;margin-bottom:16px;" />
-      <div style="display:flex;justify-content:flex-end;gap:8px;">
-        <button type="button" class="pref-btn secondary" id="prompt-cancel-btn">Cancelar</button>
-        <button type="button" class="pref-btn" id="prompt-ok-btn" style="background:#61bd4f;">OK</button>
+    <div class="prompt-window-1to1">
+      <div class="prompt-window-content">
+        <div class="prompt-content-area">
+          <div class="prompt-message" id="prompt-modal-message">Informe o valor:</div>
+          <input type="text" id="prompt-modal-input" class="prompt-input" />
+        </div>
+        <div class="prompt-button-area">
+          <button type="button" class="prompt-button" id="prompt-cancel-btn" data-i18n="prompt.button.cancel">Cancelar</button>
+          <button type="button" class="prompt-button prompt-ok" id="prompt-ok-btn" data-i18n="prompt.button.ok">OK</button>
+        </div>
       </div>
     </div>
   </div>
 
   <div id="modal-auth" class="modal-overlay hidden">
-    <div class="newcard-window" style="width:460px;min-height:auto;padding:22px 26px;text-align:left;">
-      <h3 data-i18n="auth.pageTitle" style="margin:0 0 8px;">Trello - Site solicitando autenticação</h3>
-      <p id="auth-modal-reason" style="font-size:13px;color:var(--ds-text-subtle);margin-bottom:14px;">
-        Configure suas credenciais da API Trello, Proxy ou Token de Agente.
-      </p>
-      <div style="margin-bottom:10px;">
-        <label style="font-size:12px;font-weight:600;display:block;margin-bottom:4px;" data-i18n="auth.input.username.label">Nome de usuário / API Key</label>
-        <input type="text" id="auth-username-input" placeholder="ex: sulu ou Trello API Key" style="width:100%;padding:8px;border:1px solid var(--ds-border-input);border-radius:4px;" />
+    <div class="auth-window-1to1">
+      <div class="auth-content-area">
+        <h3 data-i18n="auth.pageTitle" style="margin:0 0 6px;font-size:15px;">apex OS — Autenticação e Credenciais</h3>
+        <div class="auth-reason" id="auth-modal-reason">
+          Configure suas credenciais da API, Proxy ou Token de Agente do apex OS.
+        </div>
+        <label class="auth-label" data-i18n="auth.input.username.label">Nome de usuário / API Key</label>
+        <input type="text" id="auth-username-input" class="auth-input" placeholder="ex: joaonicolas ou API Key" />
+        <label class="auth-label" data-i18n="auth.input.password.label">Senha / Token</label>
+        <input type="password" id="auth-password-input" class="auth-input" placeholder="••••••••••••" />
       </div>
-      <div style="margin-bottom:16px;">
-        <label style="font-size:12px;font-weight:600;display:block;margin-bottom:4px;" data-i18n="auth.input.password.label">Senha / Token</label>
-        <input type="password" id="auth-password-input" placeholder="••••••••••••" style="width:100%;padding:8px;border:1px solid var(--ds-border-input);border-radius:4px;" />
-      </div>
-      <div style="display:flex;justify-content:flex-end;gap:8px;">
-        <button type="button" class="pref-btn secondary" id="auth-cancel-btn">Cancelar</button>
-        <button type="button" class="pref-btn" id="auth-submit-btn" style="background:#61bd4f;" data-i18n="auth.button.login">Fazer Login</button>
+      <div class="auth-button-area">
+        <button type="button" class="auth-button" id="auth-cancel-btn" data-i18n="auth.button.cancel">Cancelar</button>
+        <button type="button" class="auth-button auth-submit" id="auth-submit-btn" data-i18n="auth.button.login">Fazer Login</button>
       </div>
     </div>
   </div>
 
   <!-- ========================================================================
-       9. WELCOME SCREEN OVERLAY (`welcome` bundle ag/sg)
+       11. WELCOME SCREEN OVERLAY (`welcome` bundle ag/sg — 1:1 Screen-1 + Screen-3 Offline)
        ======================================================================== -->
   <div id="welcome-overlay" class="hidden">
-    <div class="welcome-bg"></div>
-    <div class="welcome-hero"></div>
-    <div class="welcome-screen-1">
-      <div class="welcome-cta">
-        <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
-          <img src="/assets/StoreLogo.scale-200.png" width="36" height="36" alt="Trello" style="border-radius:6px;" />
-          <span style="font-size:22px;font-weight:700;color:#0c66e4;">Paws for Trello</span>
+    <div class="welcome" id="welcome-root-section">
+      <div class="toolbar"></div>
+      <div class="bg"></div>
+      <div class="loading" id="welcome-loading-bars"></div>
+
+      <!-- Screen 1: Default Welcome -->
+      <div class="screen-1" id="welcome-screen-1">
+        <div class="logo-text-wrapper">
+          <svg width="36" height="36" viewBox="0 0 24 24" fill="none">
+            <rect width="24" height="24" rx="5" fill="#0c66e4"/>
+            <rect x="5" y="5" width="5.5" height="14" rx="1.5" fill="#fff"/>
+            <rect x="13.5" y="5" width="5.5" height="9" rx="1.5" fill="#fff"/>
+          </svg>
+          <span class="welcome-brand-title">apex OS</span>
         </div>
-        <h1 data-i18n="welcome.highlight">Reúna, organize e resolva suas tarefas de qualquer lugar.</h1>
-        <p data-i18n="welcome.text">Chega de bagunça e caos. Aumente sua produtividade com o Trello + Google Sheets/Docs + Antigravity &amp; Codex.</p>
-        <div style="display:flex;gap:10px;flex-wrap:wrap;">
-          <button class="pref-btn" id="welcome-continue-btn" style="font-size:15px;padding:10px 20px;">
-            Entrar no Workspace
-          </button>
-          <button class="pref-btn secondary" id="welcome-auth-btn" style="font-size:15px;padding:10px 18px;" data-i18n="welcome.button.login">
-            Fazer Login
-          </button>
+        <div class="cta">
+          <h1 data-i18n="welcome.highlight">Reúna, organize e resolva suas tarefas de qualquer lugar.</h1>
+          <p data-i18n="welcome.text">Chega de bagunça e caos. Aumente sua produtividade com o apex OS.</p>
+          <a href="#" class="button" id="welcome-continue-btn" data-testid="login-button" data-i18n="welcome.button.login">Fazer Login</a>
+          <a href="#" class="button secondary" id="welcome-signup-btn" data-testid="signup-button" data-i18n="welcome.button.signUp">Criar Conta</a>
+          <a href="#" class="button secondary" id="welcome-test-offline-btn" style="margin-left:10px;font-size:13px;">Testar Tela Offline</a>
+        </div>
+      </div>
+
+      <!-- Screen 3: NoConnection (1:1 from `welcome/index.js`) -->
+      <div class="screen-3 hidden" id="welcome-screen-3">
+        <div class="center-text">
+          <div class="center-image" aria-hidden="true">
+            <svg width="110" height="87" viewBox="0 0 110 87" fill="none">
+              <circle cx="55" cy="43" r="36" fill="#DEEBFF"/>
+              <path d="M35 52C35 41 44 33 55 33C66 33 75 41 75 52" stroke="#0C66E4" stroke-width="4" stroke-linecap="round"/>
+              <line x1="30" y1="22" x2="80" y2="68" stroke="#C9372C" stroke-width="4" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <h1 data-i18n="welcome.offline.title">Não foi possível conectar</h1>
+          <p data-i18n="welcome.offline.text">Verifique sua conexão de rede e tente novamente.</p>
+          <a href="#" class="button" id="welcome-retry-connection-btn" data-i18n="welcome.button.tryAgain">Tentar novamente</a>
         </div>
       </div>
     </div>

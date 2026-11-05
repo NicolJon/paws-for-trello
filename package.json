@@ -1,7 +1,7 @@
 {
-  "name": "paws-for-trello",
+  "name": "apex-os",
   "version": "2.16.10",
-  "description": "Paws for Trello (Trello Desktop v2.16.10 Releitura Web/Cloud) - Native Google Sheets & Docs Integration + Antigravity & OpenAI Codex MCP/API Bridge",
+  "description": "apex OS v2.16.10 (1:1 Reference Architecture Web & Cloud Edition) - Native Google Sheets & Docs Integration + Antigravity & OpenAI Codex MCP/API Bridge",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
@@ -9,9 +9,9 @@
     "mcp": "node mcp-server.js"
   },
   "keywords": [
-    "trello",
-    "paws-for-trello",
+    "apex-os",
     "kanban",
+    "planner",
     "google-sheets",
     "google-docs",
     "antigravity",
@@ -19,7 +19,7 @@
     "mcp",
     "webmcp"
   ],
-  "author": "Liam Forsyth / Atlassian (Releitura Cloud & AI Edition)",
+  "author": "João Nicolas (apex OS Cloud & AI Edition)",
   "license": "MIT",
   "engines": {
     "node": ">=18.0.0"
