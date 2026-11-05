@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="pt_BR" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Paws for Trello — v2.16.10 (Web + Google Workspace + Antigravity/Codex)</title>
+  <link rel="icon" type="image/png" href="/assets/StoreLogo.png" />
+  <link rel="stylesheet" href="/styles.css" />
+  <!-- JSZip para Export Logs (.zip) idêntico ao módulo `dialogs` (Tc) original -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js" defer></script>
+</head>
+<body class="win32">
+
+  <!-- ========================================================================
+       1. @atlassian/electron-frame — CUSTOM TITLEBAR + 8 APPLICATION MENUS
+       ======================================================================== -->
+  <window-frame id="window-frame">
+    <div class="left-bar">
+      <window-menu id="window-menu-btn" title="Menu Principal (Alt)">
+        <img src="/assets/c91ccae2ac3e68632c5b.svg" alt="Menu" width="16" height="9" />
+      </window-menu>
+      <window-title id="window-title">
+        <img src="/assets/Square44x44Logo.targetsize-24_altform-unplated.png" width="16" height="16" alt="Trello" />
+        <span id="window-title-text">Trello</span>
+      </window-title>
+
+      <!-- Barra de Menus Nativa (File, Edit, View, History, Boards, Window, Developer, Help) -->
+      <nav class="app-menubar" id="app-menubar"></nav>
+
+      <!-- Multi-Window Instances Strip (New Window / Restore Closed Window) -->
+      <div class="window-instances-bar" id="window-instances-bar"></div>
+    </div>
+
+    <window-controls>
+      <div class="control-wrapper" id="win-btn-min" title="Minimizar">
+        <img src="/assets/14a7291236ef448538b1.svg" alt="Minimize" />
+      </div>
+      <div class="control-wrapper" id="win-btn-max" title="Maximizar / Tela Cheia (F11)">
+        <img src="/assets/bb3f314b0f403dbbcfd9.svg" alt="Maximize" />
+      </div>
+      <div class="control-wrapper close-btn" id="win-btn-close" title="Fechar Janela (Ctrl+W)">
+        <img src="/assets/231a22cd6df0f42ed073.svg" alt="Close" />
+      </div>
+    </window-controls>
+  </window-frame>
+
+  <!-- ========================================================================
+       2. VIEWPORT PRINCIPAL DO WORKSPACE (`main-window` Wg/Sg)
+       ======================================================================== -->
+  <div id="app-viewport">
+
+    <!-- Top Navigation Bar -->
+    <header class="trello-topnav">
+      <div class="trello-topnav-left">
+        <button class="trello-brand-btn" id="btn-toggle-sidebar" title="Alternar Menu Lateral">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+            <rect x="3" y="3" width="18" height="18" rx="3" fill="#0c66e4"/>
+            <rect x="6" y="6" width="5" height="11" rx="1.2" fill="#fff"/>
+            <rect x="13" y="6" width="5" height="7" rx="1.2" fill="#fff"/>
+          </svg>
+          <span>Paws for Trello</span>
+          <span style="font-size:10px;background:rgba(255,255,255,0.16);padding:2px 6px;border-radius:4px;font-weight:600;">v2.16.10</span>
+        </button>
+
+        <button class="topnav-btn" id="btn-open-boards-menu" title="Quadros e Favoritos (Ctrl+Shift+B)">
+          <span>📋</span> <span data-i18n="menu.boards.menuText">Quadros</span>
+        </button>
+
+        <button class="topnav-btn" id="btn-toggle-inbox" title="Caixa de Entrada (Inbox)">
+          <span>📥</span> <span data-i18n="newcard.input.inbox.label">Caixa de entrada</span>
+          <span id="inbox-badge-count" style="background:#0c66e4;color:#fff;padding:1px 6px;border-radius:10px;font-size:11px;">2</span>
+        </button>
+
+        <button class="topnav-btn primary-create" id="btn-quick-add-card" title="Cartão Rápido (Ctrl+Alt+Space)">
+          <span>+</span> <span data-i18n="menu.file.quickCard">Cartão Rápido</span>
+        </button>
+
+        <button class="topnav-btn google-btn" id="btn-google-workspace" title="Sincronizar Google Sheets e Criar Google Docs">
+          <span>📊</span> <span>Google Sheets &amp; Docs</span>
+        </button>
+
+        <button class="topnav-btn agent-btn" id="btn-ai-agents-hub" title="Acesso Antigravity IDE &amp; OpenAI Codex (MCP / API)">
+          <span>🤖</span> <span>Antigravity &amp; Codex</span>
+        </button>
+      </div>
+
+      <div class="trello-topnav-right">
+        <div class="topnav-search">
+          <span style="position:absolute;left:9px;top:7px;font-size:13px;opacity:0.7;">🔍</span>
+          <input type="text" id="global-filter-input" placeholder="Filtrar cartões ou Ctrl+F..." />
+        </div>
+
+        <button class="topnav-btn" id="btn-theme-toggle" title="Alternar Tema Claro / Escuro">
+          <span id="theme-icon">🌙</span>
+        </button>
+
+        <button class="topnav-btn" id="btn-open-welcome" title="Tela de Boas-Vindas (Welcome)">
+          <span>👋</span>
+        </button>
+
+        <button class="topnav-btn" id="btn-open-preferences" title="Preferências (Ctrl+,)">
+          <span>⚙️</span>
+        </button>
+
+        <button class="topnav-btn" id="btn-switch-account" title="Alternar Conta / Gerenciar Perfil" style="padding:4px 8px;">
+          <span id="user-avatar-chip" style="width:24px;height:24px;border-radius:50%;background:#0c66e4;color:#fff;display:inline-flex;align-items:center;justify-content:center;font-weight:700;font-size:11px;">JN</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Split Workspace: Sidebar + Inbox Dock + Board/Table/Calendar/MyCards View -->
+    <div class="workspace-main">
+
+      <!-- Left Workspace Sidebar -->
+      <aside class="workspace-sidebar" id="workspace-sidebar">
+        <div class="sidebar-section">
+          <div class="sidebar-section-title">Navegação Trello</div>
+          <div class="sidebar-nav-item active" data-view="board" id="nav-view-board">
+            <span>📌 Quadro Atual</span>
+          </div>
+          <div class="sidebar-nav-item" data-view="all-boards" id="nav-view-all-boards">
+            <span>🗂️ Todos os Quadros</span>
+            <span style="font-size:10px;opacity:0.6;">Ctrl+Shift+B</span>
+          </div>
+          <div class="sidebar-nav-item" data-view="my-cards" id="nav-view-my-cards">
+            <span>👤 Meus Cartões</span>
+            <span style="font-size:10px;opacity:0.6;">Ctrl+Shift+M</span>
+          </div>
+          <div class="sidebar-nav-item" data-view="table" id="nav-view-table">
+            <span>📑 Visão de Tabela (Sheets)</span>
+          </div>
+          <div class="sidebar-nav-item" data-view="calendar" id="nav-view-calendar">
+            <span>📅 Calendário / Planner</span>
+          </div>
+          <div class="sidebar-nav-item" data-view="activity" id="nav-view-activity">
+            <span>⚡ Log de Atividades &amp; IA</span>
+          </div>
+        </div>
+
+        <div class="sidebar-section">
+          <div class="sidebar-section-title">
+            <span>⭐ Quadros com Estrela (1..9)</span>
+          </div>
+          <div id="starred-boards-sidebar-list"></div>
+        </div>
+
+        <div class="sidebar-section">
+          <div class="sidebar-section-title">
+            <span>Seus Quadros</span>
+            <button id="btn-new-board-sidebar" style="background:none;border:none;color:#B6C2CF;cursor:pointer;font-size:15px;" title="Criar Novo Quadro">+</button>
+          </div>
+          <div id="all-boards-sidebar-list"></div>
+        </div>
+
+        <div class="sidebar-section" style="margin-top:auto;border-top:1px solid rgba(255,255,255,0.1);padding-top:10px;">
+          <div class="sidebar-nav-item" id="sidebar-btn-sheets-sync">
+            <span>🟢 Sincronizar Google Sheets</span>
+          </div>
+          <div class="sidebar-nav-item" id="sidebar-btn-mcp-status">
+            <span>🤖 MCP Server: Online</span>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Trello Inbox Split Dock -->
+      <section class="inbox-dock" id="inbox-dock">
+        <div class="inbox-header">
+          <h3>📥 <span data-i18n="newcard.input.inbox.label">Caixa de entrada</span></h3>
+          <button id="btn-close-inbox" style="background:none;border:none;color:#fff;cursor:pointer;opacity:0.7;">✕</button>
+        </div>
+        <div class="inbox-quick-form">
+          <input type="text" id="inbox-quick-input" placeholder="Capturar ideia na Caixa de entrada... (Enter)" />
+        </div>
+        <div class="inbox-cards-list" id="inbox-cards-list"></div>
+      </section>
+
+      <!-- Active Board / View Canvas -->
+      <main class="board-canvas-wrapper" id="board-canvas-wrapper">
+        <div class="board-header-bar">
+          <div class="board-header-left">
+            <h2 class="board-title-heading" id="active-board-title" title="Clique para renomear o quadro">Paws for Trello</h2>
+            <button class="board-pill-btn" id="btn-star-current-board" title="Marcar/Desmarcar com Estrela">⭐</button>
+            <button class="board-pill-btn" id="btn-set-default-board" title="Definir como Quadro Padrão (Ctrl+Shift+D)">📌 Padrão</button>
+            <div style="display:flex;gap:4px;margin-left:8px;">
+              <button class="board-pill-btn active" data-switch-mode="board">Quadro</button>
+              <button class="board-pill-btn" data-switch-mode="table">Tabela</button>
+              <button class="board-pill-btn" data-switch-mode="calendar">Calendário</button>
+            </div>
+          </div>
+
+          <div class="board-header-right">
+            <button class="board-pill-btn" id="btn-export-board-sheets" title="Sincronizar ou Exportar este Quadro para o Google Sheets">
+              📊 Sync Sheets
+            </button>
+            <button class="board-pill-btn" id="btn-export-board-doc" title="Gerar Relatório de Especificação no Google Docs">
+              📄 Gerar Google Doc
+            </button>
+            <button class="board-pill-btn" id="btn-run-agent-triage" title="Executar Triagem da Inbox via Antigravity / Codex">
+              🤖 Triagem IA
+            </button>
+            <button class="board-pill-btn" id="btn-add-list-header">+ Adicionar Lista</button>
+          </div>
+        </div>
+
+        <!-- Conteúdo Dinâmico (Kanban Lists, Table View, Calendar View, All Boards, My Cards, Activity) -->
+        <div class="kanban-lists-container" id="workspace-dynamic-content"></div>
+      </main>
+    </div>
+
+    <!-- ======================================================================
+         3. DOWNLOADS BOTTOM BAR (`downloads` bundle yg — 56px height)
+         ====================================================================== -->
+    <div id="downloads-bar-container" class="hidden">
+      <div class="downloads" data-testid="downloads-bar">
+        <div class="downloads__download-items" id="downloads-items-list"></div>
+        <div class="downloads__close-button">
+          <div class="close-button" id="btn-close-downloads-bar" title="Fechar barra de downloads">✕</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       4. FLOATING FIND IN PAGE BAR (`find_in_page` bundle Ig — 554x52px)
+       ======================================================================== -->
+  <div id="find-in-page-floating" class="hidden">
+    <div class="inpage-search-body">
+      <input type="text" id="find-in-page-input" class="inpage-search-input" placeholder="Encontrar nos cartões e listas..." />
+      <div class="inpage-search-nav-bar">
+        <span class="inpage-search-matches" id="find-in-page-counter">0/0</span>
+        <div class="inpage-search-buttons">
+          <div class="inpage-search-button" id="find-prev-btn" title="Anterior (Shift+Enter)">▲</div>
+          <div class="inpage-search-button inpage-search-forward" id="find-next-btn" title="Próximo (Enter)">▲</div>
+          <div class="inpage-search-button" id="find-close-btn" title="Fechar (Esc)">✕</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       5. QUICK ADD CARD MODAL (`newcard` bundle ug/dg — 500x400px)
+       ======================================================================== -->
+  <div id="modal-newcard" class="modal-overlay hidden">
+    <div class="newcard-window" role="dialog" aria-labelledby="newcard-modal-title">
+      <div class="newcard-header">
+        <h3 class="newcard-title" id="newcard-modal-title" data-i18n="newcard.pageTitle">Criar cartão</h3>
+        <button type="button" class="newcard-close-button" id="newcard-close-btn" data-testid="newcard-close-button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Atlaskit Tabs: Board vs Inbox -->
+      <div class="destination-tabs" role="tablist">
+        <div class="destination-tab" role="tab" id="tab-dest-board" aria-selected="true" data-dest="board" data-i18n="newcard.input.board.label">Quadro</div>
+        <div class="destination-tab" role="tab" id="tab-dest-inbox" aria-selected="false" data-dest="inbox" data-i18n="newcard.input.inbox.label">Caixa de entrada</div>
+      </div>
+
+      <form id="newcard-form">
+        <!-- Board & List Selectors (Visible when destination === 'board') -->
+        <div class="row" id="newcard-board-list-row">
+          <div class="width">
+            <span class="field-label" data-i18n="newcard.input.board.label">Quadro</span>
+            <label class="box-label">
+              <select id="newcard-board-select" class="overlay-select"></select>
+              <span class="value" id="newcard-board-display">Selecionar quadro</span>
+            </label>
+          </div>
+          <div class="width last">
+            <span class="field-label"><span data-i18n="newcard.input.list.label">Lista</span> <span class="required">*</span></span>
+            <label class="box-label">
+              <select id="newcard-list-select" class="overlay-select"></select>
+              <span class="value" id="newcard-list-display">Selecionar lista</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Card Title -->
+        <div class="field-row row">
+          <span class="field-label"><span data-i18n="newcard.input.cardTitle.label">Título</span> <span class="required">*</span></span>
+          <label class="box-label">
+            <input type="text" id="newcard-title-input" class="input" placeholder="Título do cartão" required />
+          </label>
+        </div>
+
+        <!-- Card Description -->
+        <div class="row">
+          <span class="field-label" data-i18n="newcard.input.description.label">Descrição</span>
+          <label class="box-label">
+            <textarea id="newcard-desc-input" class="input" placeholder="Adicionar uma descrição"></textarea>
+          </label>
+        </div>
+
+        <button type="submit" class="submit" data-testid="submit" data-i18n="newcard.button.submit">Criar cartão</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       6. PREFERENCES WINDOW (`preferences` bundle _g/Ng — 5 Tabs:
+          App Settings, Google Workspace, Antigravity & Codex, Licenses, About)
+       ======================================================================== -->
+  <div id="modal-preferences" class="modal-overlay hidden">
+    <div class="preferences-window">
+      <div class="pref-toolbar">
+        <h5 data-i18n="preferences.title">Preferências</h5>
+        <button id="pref-close-btn" style="background:none;border:none;color:#fff;font-size:18px;cursor:pointer;">✕</button>
+      </div>
+      <div class="pref-body">
+        <aside class="pref-sidebar">
+          <img id="sidebarlogo" src="/assets/Wide310x150Logo.scale-200.png" alt="Trello Logo" style="background:#0079bf;border-radius:6px;padding:4px;" />
+          <ul class="sidebarmenu">
+            <li><a class="selected" data-pref-tab="settings" data-testid="settings-url">⚙️ <span data-i18n="preferences.sidebarMenu.settings">Configurações do aplicativo</span></a></li>
+            <li><a data-pref-tab="google" data-testid="google-url">📊 <span>Google Sheets &amp; Docs</span></a></li>
+            <li><a data-pref-tab="agents" data-testid="agents-url">🤖 <span>Antigravity &amp; Codex</span></a></li>
+            <li><a data-pref-tab="licenses" data-testid="licenses-url">📜 <span data-i18n="preferences.sidebarMenu.licenses">Informações de licenças</span></a></li>
+            <li><a data-pref-tab="about" data-testid="about-url">ℹ️ <span data-i18n="preferences.sidebarMenu.about">Sobre</span></a></li>
+          </ul>
+        </aside>
+
+        <div class="pref-content-scroll" id="pref-tab-container"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       7. CARD DETAIL & GOOGLE DOCS EDITOR MODAL
+       ======================================================================== -->
+  <div id="modal-card-detail" class="modal-overlay hidden">
+    <div class="preferences-window" style="width:740px;height:auto;max-height:90vh;">
+      <div class="pref-toolbar" style="background:#172B4D;">
+        <h5 id="card-detail-header-title">Detalhes do Cartão</h5>
+        <button id="card-detail-close-btn" style="background:none;border:none;color:#fff;font-size:18px;cursor:pointer;">✕</button>
+      </div>
+      <div class="pref-content-scroll" id="card-detail-body"></div>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       8. PROMPT MODAL (`prompt` bundle Fg/Lg) & AUTH MODAL (`auth` bundle Rg/Vg)
+       ======================================================================== -->
+  <div id="modal-prompt" class="modal-overlay hidden">
+    <div class="newcard-window" style="width:420px;min-height:auto;padding:20px 24px;text-align:left;">
+      <h3 id="prompt-modal-message" style="margin:0 0 12px;font-size:16px;">Informe o valor:</h3>
+      <input type="text" id="prompt-modal-input" style="width:100%;padding:8px 10px;border:2px solid var(--ds-border-input);border-radius:4px;font-size:15px;margin-bottom:16px;" />
+      <div style="display:flex;justify-content:flex-end;gap:8px;">
+        <button type="button" class="pref-btn secondary" id="prompt-cancel-btn">Cancelar</button>
+        <button type="button" class="pref-btn" id="prompt-ok-btn" style="background:#61bd4f;">OK</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="modal-auth" class="modal-overlay hidden">
+    <div class="newcard-window" style="width:460px;min-height:auto;padding:22px 26px;text-align:left;">
+      <h3 data-i18n="auth.pageTitle" style="margin:0 0 8px;">Trello - Site solicitando autenticação</h3>
+      <p id="auth-modal-reason" style="font-size:13px;color:var(--ds-text-subtle);margin-bottom:14px;">
+        Configure suas credenciais da API Trello, Proxy ou Token de Agente.
+      </p>
+      <div style="margin-bottom:10px;">
+        <label style="font-size:12px;font-weight:600;display:block;margin-bottom:4px;" data-i18n="auth.input.username.label">Nome de usuário / API Key</label>
+        <input type="text" id="auth-username-input" placeholder="ex: sulu ou Trello API Key" style="width:100%;padding:8px;border:1px solid var(--ds-border-input);border-radius:4px;" />
+      </div>
+      <div style="margin-bottom:16px;">
+        <label style="font-size:12px;font-weight:600;display:block;margin-bottom:4px;" data-i18n="auth.input.password.label">Senha / Token</label>
+        <input type="password" id="auth-password-input" placeholder="••••••••••••" style="width:100%;padding:8px;border:1px solid var(--ds-border-input);border-radius:4px;" />
+      </div>
+      <div style="display:flex;justify-content:flex-end;gap:8px;">
+        <button type="button" class="pref-btn secondary" id="auth-cancel-btn">Cancelar</button>
+        <button type="button" class="pref-btn" id="auth-submit-btn" style="background:#61bd4f;" data-i18n="auth.button.login">Fazer Login</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       9. WELCOME SCREEN OVERLAY (`welcome` bundle ag/sg)
+       ======================================================================== -->
+  <div id="welcome-overlay" class="hidden">
+    <div class="welcome-bg"></div>
+    <div class="welcome-hero"></div>
+    <div class="welcome-screen-1">
+      <div class="welcome-cta">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
+          <img src="/assets/StoreLogo.scale-200.png" width="36" height="36" alt="Trello" style="border-radius:6px;" />
+          <span style="font-size:22px;font-weight:700;color:#0c66e4;">Paws for Trello</span>
+        </div>
+        <h1 data-i18n="welcome.highlight">Reúna, organize e resolva suas tarefas de qualquer lugar.</h1>
+        <p data-i18n="welcome.text">Chega de bagunça e caos. Aumente sua produtividade com o Trello + Google Sheets/Docs + Antigravity &amp; Codex.</p>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;">
+          <button class="pref-btn" id="welcome-continue-btn" style="font-size:15px;padding:10px 20px;">
+            Entrar no Workspace
+          </button>
+          <button class="pref-btn secondary" id="welcome-auth-btn" style="font-size:15px;padding:10px 18px;" data-i18n="welcome.button.login">
+            Fazer Login
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Right-Click Context Menu (`context-menu` module tg) -->
+  <div id="custom-context-menu" class="hidden"></div>
+
+  <!-- Toast Notifications Container -->
+  <div id="toast-container"></div>
+
+  <script src="/app.js"></script>
+</body>
+</html>
