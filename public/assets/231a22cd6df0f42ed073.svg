@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="11px" height="11px" viewBox="0 0 11 11" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 46.2 (44496) - http://www.bohemiancoding.com/sketch -->
+    <title>Close</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="App-title-bar-/-Without-back-button-transparent" transform="translate(-994.000000, -10.000000)" fill="#FFFFFF">
+            <g id="Right-Controls" transform="translate(899.000000, 10.000000)">
+                <polygon id="Close" points="105.45752 1.11376953 101.077637 5.5 105.45752 9.88623047 104.88623 10.4575195 100.5 6.07763672 96.1137695 10.4575195 95.5424805 9.88623047 99.9223633 5.5 95.5424805 1.11376953 96.1137695 0.542480469 100.5 4.92236328 104.88623 0.542480469"></polygon>
+            </g>
+        </g>
+    </g>
+</svg>

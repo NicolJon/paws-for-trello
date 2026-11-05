@@ -1,0 +1,27 @@
+{
+  "name": "paws-for-trello",
+  "version": "2.16.10",
+  "description": "Paws for Trello (Trello Desktop v2.16.10 Releitura Web/Cloud) - Native Google Sheets & Docs Integration + Antigravity & OpenAI Codex MCP/API Bridge",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "mcp": "node mcp-server.js"
+  },
+  "keywords": [
+    "trello",
+    "paws-for-trello",
+    "kanban",
+    "google-sheets",
+    "google-docs",
+    "antigravity",
+    "codex",
+    "mcp",
+    "webmcp"
+  ],
+  "author": "Liam Forsyth / Atlassian (Releitura Cloud & AI Edition)",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
